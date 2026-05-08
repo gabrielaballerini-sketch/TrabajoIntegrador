@@ -1,0 +1,22 @@
+extends layout.pug
+
+block metadata
+  title Fotaza - Inicio
+
+block content
+  .container-fluid
+    .row.min-vh-100
+
+      .col-md-6.d-flex.flex-column.justify-content-center.p-5.bg-dark.text-white
+        h1.display-3.fw-bold 📷 Fotaza
+        p.lead Compartí tus fotos con el mundo
+
+      .col-md-6.d-flex.align-items-center.justify-content-center
+        .card(style='width: 22rem;')
+          .card-body
+            h5.card-title.mb-4 Bienvenido
+            a.btn.btn-primary.w-100.mb-2(href='/auth/login') Iniciar sesión
+            a.btn.btn-outline-secondary.w-100.mb-2(href='/auth/anonimo') Ingresar como invitado
+            p.mt-3.text-center
+              | ¿No tenés cuenta?
+              a(href='/auth/signup')  Registrate
