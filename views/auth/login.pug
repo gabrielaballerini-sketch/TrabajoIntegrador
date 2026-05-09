@@ -1,0 +1,48 @@
+extends ../layoutPrivate.pug
+
+block metadata
+  title Iniciar sesión
+
+block content
+
+  .container-fluid
+    .row.min-vh-100
+
+      .col-md-6.d-flex.flex-column.justify-content-center.p-5
+        h1.display-3.fw-bold Fotaza
+        p.lead.text-muted Compartí tus fotos con el mundo
+
+      .col-md-6.d-flex.align-items-center.justify-content-center
+
+        .card.shadow(style='width: 22rem;')
+          .card-body
+
+            h3.card-title.text-center.mb-4 Iniciar sesión
+
+            form(method='POST', action='/auth/login')
+
+              .mb-3
+                label.form-label(for='email') Email
+                input.form-control(
+                  type='email',
+                  id='email',
+                  name='email',
+                  required
+                )
+
+              .mb-3
+                label.form-label(for='password') Contraseña
+                input.form-control(
+                  type='password',
+                  id='password',
+                  name='password',
+                  required
+                )
+
+              button.btn.btn-primary.w-100.mb-3(type='submit')
+                | Ingresar
+
+              p.text-center
+                | ¿No tenés cuenta?
+                a.ms-1(href='/auth/signup')
+                  | Registrate
