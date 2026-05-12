@@ -16,8 +16,9 @@ Imagen.init(
        allowNull: false,
     },
     licencia: {
-      type: DataTypes.ENUM('copyright', 'creative_commons', 'dominio_publico'),
+      type: DataTypes.ENUM('copyright', 'sincopyright'),
       allowNull: false,
+      defaultValue:'sincopyright'
      
     },
     marca_agua: {
