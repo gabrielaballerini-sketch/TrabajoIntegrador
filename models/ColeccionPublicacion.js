@@ -1,38 +1,40 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "./config.js";
 
-export class Seguidor extends Model { }
+export class ColeccionesPublicacion extends Model { }
 
-Seguidor.init(
+ColeccionesPublicacion.init(
   {
-   
- 
 
-    seguido_id: {
+  
+   
+
+
+    coleccion_id: {
       type: DataTypes.INTEGER,
       primaryKey:true,
       
 
     },
   
-    seguidor_id: {
+    publicacion_id: {
       type: DataTypes.INTEGER,
        primaryKey:true,
-  
+     
     }
   
 },
  
 {
     sequelize,
-    modelName: 'Seguidor',
-    tableName: 'seguidores',
+    modelName: 'ColeccionPublicacion',
+    tableName: 'colecciones_publicaciones',
     createdAt: true,
     updatedAt:false,
-
-
-
    
+
+
+  
   },
 
 
