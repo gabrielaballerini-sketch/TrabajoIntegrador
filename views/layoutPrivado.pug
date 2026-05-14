@@ -1,0 +1,22 @@
+extends ./layout.pug
+
+block content       
+    nav.navbar.navbar-expand-lg.bg-body-tertiary
+      .container-fluid
+        a.navbar-brand(href='#') Fotaza
+        button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbarNavAltMarkup', aria-controls='navbarNavAltMarkup', aria-expanded='false', aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        #navbarNavAltMarkup.collapse.navbar-collapse
+          .navbar-nav
+            a.nav-link.active(aria-current='page', href='#') Home
+            a.nav-link(href='#') Mi Perfil
+            a.nav-link(href='#') Crear Publicacion
+            a.nav-link(href='#') Siguiendo
+            a.nav-link(href='#') Favoritos
+            a.nav-link(href='#') Cerrar sesion
+            a.nav-link(href='#') Notificaciones
+
+            a.nav-link.disabled(aria-disabled='true') Disabled
+
+
+    block contenido

@@ -1,23 +1,20 @@
-extends ../layoutPrivate.pug
+extends ../layoutPublico.pug
 
 block metadata
   title Registrarse
 
-block content
-
-  .container-fluid
-    .row.min-vh-100
-
-      .col-md-6.d-flex.flex-column.justify-content-center.p-5
-        h1.display-3.fw-bold Fotaza
-        p.lead.text-muted Compartí tus fotos con el mundo
-
-      .col-md-6.d-flex.align-items-center.justify-content-center
-
+block formulario
+  
         .card.shadow(style='width: 22rem;')
           .card-body
 
             h3.card-title.text-center.mb-4 Registrarse
+            
+           
+            if error 
+              .alert.alert-danger=error
+
+
 
             form(method='POST', action='/auth/signup')
 
@@ -48,19 +45,39 @@ block content
                   required
                 )
 
+              .mb-3 
+                label.form-label(for='telefono') telefono
+                input.form-control(
+                  type='text',
+                  id='telefono',
+                  name='telefono'
+
+                )
+
+              .mb-3 
+                label.form-label(for='nacimiento')
+                  Fecha de nacimiento 
+
+                input.form-control(
+                type='date',
+                id='nacimiento',
+                name='nacimiento'
+
+                )    
+
+
+
               .mb-3
                 label.form-label(for='password') Contraseña
                 input.form-control(
-                  type='password',
-                  id='password',
-                  name='password',
-                  required
-                )
-
+                type='password',
+                id='password',
+                name='password',
+                required
+                 )
               .mb-3
-                label.form-label(for='confPassword')
-                  | Confirmar contraseña
-
+                label.form-label(for='confPassword') Confirmar contraseña
+              
                 input.form-control(
                   type='password',
                   id='confPassword',

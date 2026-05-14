@@ -11,7 +11,6 @@ Valoracion.init(
       primaryKey: true,
     },
 
-  
 
 
 puntaje:{
@@ -34,9 +33,21 @@ max:5,
 {
     sequelize, 
     modelName: 'Valoracion', 
-    tableName: 'Valoraciones', 
+    tableName: 'valoraciones', 
     createdAt: true, 
     updatedAt: false,
+
+
+indexes:[{
+unique:true,
+fields:['usuario_id','imagen_id']
+}
+]
+
+
+
+
+
     
   },
 

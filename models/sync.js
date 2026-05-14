@@ -2,15 +2,16 @@
 import {Usuario} from './Usuario.js'
 import {Publicacion} from'./Publicacion.js'
 import {Imagen} from'./Imagen.js'
-import {Like} from'./Like.js'
+import {Valoracion} from'./Valoracion.js'
 import {Etiqueta} from './Etiqueta.js'
 import {Comentario} from'./Comentario.js'
 import {Seguidor} from'./Seguidor.js'
-import {Chat} from'./Chat.js'
-//import {Denuncia} from'./Denuncia.js'
+import {Mensaje} from'./Mensaje.js'
+import {Denuncia} from'./Denuncia.js'
 import {Notificacion} from'./Notificacion.js'
-
-
+import{Coleccion}from './Coleccion.js'
+import { ColeccionPublicacion } from './ColeccionPublicacion.js'
+import{ImagenEtiqueta} from './ImagenEtiqueta.js'
 
 
 Usuario.hasMany(Publicacion,{foreignKey:'usuario_id',onDelete:'CASCADE'});
@@ -20,67 +21,116 @@ Publicacion.belongsTo(Usuario,{foreignKey:'usuario_id'})
 Publicacion.hasMany(Imagen,{foreignKey:'publicacion_id',onDelete:'CASCADE'});
 Imagen.belongsTo(Publicacion,{foreignKey:'publicacion_id'})
 
-Usuario.hasMany(Comentario,{foreignKey:'usuario_id',onDelete:'CASCADE'});
+Usuario.hasMany(Comentario,{foreignKey:'usuario_id'});
 Comentario.belongsTo(Usuario,{foreignKey:'usuario_id'})
 
 Publicacion.hasMany(Comentario,{foreignKey:'publicacion_id',onDelete:'CASCADE'});
 Comentario.belongsTo(Publicacion,{foreignKey:'publicacion_id'})
 
 
+Imagen.hasMany(Valoracion,{foreignKey:'imagen_id',onDelete:'CASCADE'});
+Valoracion.belongsTo(Imagen,{foreignKey:'imagen_id'})
 
-Imagen.hasMany(Like,{foreignKey:'imagen_id',onDelete:'CASCADE'});
-Like.belongsTo(Imagen,{foreignKey:'imagen_id'})
 
+Usuario.hasMany(Valoracion,{
+foreignKey:'usuario_id',
+onDelete:'CASCADE'
 
-//de muchos a muchos
-Usuario.belongsToMany(Usuario,{through:Seguidor, // tabla intermedia
-as :'Seguidos', // los q YO sigo
-//clave mi usuario
-foreignKey:'seguidor_id',// mi id
-//clave del q sigo
-otherKey:'seguido_id' // id del q sigo
+})
 
+Valoracion.belongsTo(Usuario,{
+foreignKey:'usuario_id'
 
 })
 
 
 
-//envia..........//VER SI NECESITO PONERLE AS REMITENTE EN LA SEGUNDA
-Usuario.hasMany(Chat,{foreignKey:'remitente_id',as:'mensajesEnviados' })
-Chat.belongsTo(Usuario,{foreignKey:'remitente_id',as:'remitente' })
+Usuario.belongsToMany(Usuario,{
+through:Seguidor,
+as:'Seguidos',
+foreignKey:'seguidor_id',
+otherKey:'seguido_id'
 
-//recibe
-Usuario.hasMany(Chat,{foreignKey:'destinatario_id',as:'mensajesRecibidos' })
-Chat.belongsTo(Usuario,{foreignKey:'destinatario_id',as:'destinatario'  })
+})
 
-
-
-//VER SI NECESITO PONERLE AS DESTINATARIO EN LA SEGUNDA
 Usuario.belongsToMany(Usuario,{
 through:Seguidor,
 as:'Seguidores',
 foreignKey:'seguido_id',
-otherKey:'seguidor_id', 
+otherKey:'seguidor_id'
 
 })
 
 
 
+Usuario.hasMany(Mensaje,{foreignKey:'remitente_id',as:'mensajesEnviados',onDelete:'CASCADE' })
+Mensaje.belongsTo(Usuario,{foreignKey:'remitente_id',as:'remitente' })
+
+//recibe
+Usuario.hasMany(Mensaje,{foreignKey:'destinatario_id',as:'mensajesRecibidos',onDelete:'CASCADE' })
+Mensaje.belongsTo(Usuario,{foreignKey:'destinatario_id',as:'destinatario'  })
+
+
+
+
+
 //ver si en seugnda debo poner as receptor
-Usuario.hasMany(Notificacion,{foreignKey:'usuario_id',as:'notificaciones'})
+Usuario.hasMany(Notificacion,{foreignKey:'usuario_id',as:'notificaciones',onDelete:'CASCADE'})
 Notificacion.belongsTo(Usuario,{foreignKey:'usuario_id', as:'receptor'})
 
-Usuario.hasMany(Notificacion,{foreignKey:'actor_id', as:'accionesGeneradas'})
+Usuario.hasMany(Notificacion,{foreignKey:'actor_id', as:'accionesGeneradas',onDelete:'CASCADE'})
 Notificacion.belongsTo(Usuario,{foreignKey:'actor_id', as:'actor'})
 
 
-/*
+//1
+Usuario.hasMany(Coleccion,{foreignKey:'usuario_id',onDelete:'CASCADE'})
+
+
+Coleccion.belongsTo(Usuario,{foreignKey:'usuario_id',as:'usuario'
+
+})
+
+
+Coleccion.belongsToMany(Publicacion,{
+through:ColeccionPublicacion, 
+foreignKey:'coleccion_id',
+otherKey:'publicacion_id',
+as:'publicaciones',
+onDelete:'CASCADE'
+
+
+})
+
+Publicacion.belongsToMany(Coleccion,{
+through:ColeccionPublicacion,
+foreignKey:'publicacion_id',
+otherKey:'coleccion_id',
+as:'colecciones',
+onDelete:'CASCADE'
+})
+
+
+Imagen.belongsToMany(Etiqueta,{
+through:ImagenEtiqueta,
+foreignKey:"imagen_id",
+onDelete:'CASCADE'
+});
+
+Etiqueta.belongsToMany(Imagen,{
+through:ImagenEtiqueta,
+foreignKey:"etiqueta_id",
+onDelete:'CASCADE'
+
+})
+
+
+// usuario con publicacion 
+
+
 Usuario.hasMany(Denuncia,{
 foreignKey:'usuario_id',
 as:'denunciasRealizadas',
-
-
-
+onDelete:'CASCADE'
 })
 
 
@@ -91,6 +141,6 @@ as:'usuario'
 
 
 })
-*/
+
 //relacion usuario like?? 
 

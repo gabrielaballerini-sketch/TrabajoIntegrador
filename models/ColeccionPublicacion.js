@@ -1,9 +1,9 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "./config.js";
 
-export class ColeccionesPublicacion extends Model { }
+export class ColeccionPublicacion extends Model { }
 
-ColeccionesPublicacion.init(
+ColeccionPublicacion.init(
   {
 
   

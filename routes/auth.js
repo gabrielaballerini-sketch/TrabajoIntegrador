@@ -1,19 +1,19 @@
 import { Router } from "express"
-import { Usuario } from '../models/UsuarioModels.js';
+import { Usuario } from '../models/Usuario.js';
+import { signup } from "../controller/auth.js";
+
 
 
 const router = Router()
+
+
+router.post('/signup',signup)
 
 router.get('/login', (req, res) => {
   res.render('auth/login')
 })
 
-router.post('/login', (req, res) => {
-  //  lógica de autenticación
 
-  // si esta todo bien luego de redirecciona al home
-  res.redirect('/gastos')
-})
 
 router.get('/signup', (req, res) => {
   res.render('auth/signup')
@@ -24,20 +24,20 @@ router.get('/anonimo', (req, res) => {
 })
 
 
-router.post('/signup', (req, res) => {
-  //  lógica de registro de usuario
-  
-  // si esta todo bien luego de redirecciona al home
-  res.redirect('/gastos')
-})
 
+
+router.post('/login',(req,res)=>{
+res.redirect('/home')
+
+
+})
 
 
 router.get('/test', async (req,res)=>{
 
    const usuario = await Usuario.create({
-      firstName:'Gabi',
-      lastName:'Bal',
+      Nombre:'Gabi',
+      Apellido:'Bal',
       email:'gabi@gmail.com'
    });
 

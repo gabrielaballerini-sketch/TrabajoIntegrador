@@ -1,6 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "./config.js";
 
+
 export class Usuario extends Model {}
 
 Usuario.init(
@@ -19,7 +20,7 @@ Usuario.init(
       allowNull: false
     },
 
-    contrasena: {
+    password: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
@@ -35,16 +36,17 @@ Usuario.init(
       type: DataTypes.DATEONLY,
     },
     rol: {
-      type: DataTypes.ENUM('validador', 'usuario'),
+      type: DataTypes.ENUM('validador', 'usuario','administrador'),
+     defaultValue:'usuario'
     },
+   
     activo:{
-    type:DataTypes.BOOLEAN
+    type:DataTypes.BOOLEAN,
+    defaultValue:true
 
     },
   
-    avatar: {
-      type: DataTypes.BLOB,
-    }
+
   },
   {
     sequelize, // necesario para conectarse a la bd
