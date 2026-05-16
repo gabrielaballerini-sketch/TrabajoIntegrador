@@ -1,0 +1,31 @@
+
+extends ../layoutPrivado.pug
+
+block contenido 
+
+  h2 Crear Publicacion
+
+  div#imgsPreview
+
+    form(action="/img" method="post")
+      div
+        label(for="img") Imagenes
+
+        input(type="file" name="img" id="img" multiple)
+
+      div#imgsBase64
+
+      div 
+        label Titulo 
+        input(type="text" name="titulo")
+      
+      div 
+        label Descripcion 
+        textarea(name="descripcion")
+
+      input(type="submit" value="Publicar") 
+
+      div
+        ul#errores
+    
+    script(src="/js/prueba.js")

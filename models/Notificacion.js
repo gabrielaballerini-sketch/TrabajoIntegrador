@@ -12,13 +12,34 @@ Notificacion.init(
     },
 //enum, me interesaa? 
 tipo: {
-      type: DataTypes.ENUM('cometario','like','seguidor'),
+      type: DataTypes.ENUM('cometario','valoracion','seguidor','denuncia'),
       allowNull: false,
     },
     leida: {
       type: DataTypes.BOOLEAN,
        allowNull: false,
     },
+
+ usuario_id:{
+type:DataTypes.INTEGER,
+allowNull:false,
+
+ },
+   
+ texto:{
+type:DataTypes.STRING,
+allowNull:false,
+
+ },
+
+ fecha_lectura:{
+
+type:DataTypes.DATE,
+allowNull:true
+
+
+ }
+  
 
 
 

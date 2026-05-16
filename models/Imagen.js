@@ -11,10 +11,23 @@ Imagen.init(
       primaryKey: true,
     },
 
-    data: {
+
+    //PONGO.TEXT X AHORA PROVISORIO..
+    //LUEGO VEO SI VUELVO A BLOB
+    /*data: {
       type: DataTypes.BLOB('long'),
        allowNull: false,
     },
+    */
+
+     data: {
+      type: DataTypes.TEXT,
+       allowNull: false,
+      },
+
+
+
+
     licencia: {
       type: DataTypes.ENUM('copyright', 'sincopyright'),
       allowNull: false,

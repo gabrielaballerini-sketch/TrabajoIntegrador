@@ -3,6 +3,8 @@ import 'dotenv/config';
 import authRouter from './routes/auth.js'
 import sequelize from './models/config.js'
 import './models/sync.js'
+import publicaciones from './routes/routerPublicaciones.js'
+import {mostrarHome}from './controller/homeController.js'
 
 
 const PORT = process.env.PORT;
@@ -28,11 +30,17 @@ res.render('index');
 app.use('/auth',authRouter)
 
 
+//me voy a mi router publicacion
+app.use('/publicaciones',publicaciones)
 
+
+/*
 app.get('/home', (req, res) => {
   res.render('home')
 })
+*/
 
+app.get('/home',mostrarHome);
 
 
 //sincronizamos la bd con sync

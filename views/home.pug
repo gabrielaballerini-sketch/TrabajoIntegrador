@@ -1,9 +1,19 @@
 extends layoutPrivado.pug 
 
-block metadata 
-  title Fotaza-Inicio 
-
 block contenido 
-  .container.mt-4 
-    h2 Bienvenido 
-    p Fotitossssssss
+  h1 Home 
+
+
+  //RECORRO LO Q MANDO CONTROLLER
+  each publicacion in publicaciones 
+
+    div.card 
+
+
+      h3=publicacion.titulo 
+
+      p=publicacion.descripcion 
+
+      each imagen in publicacion.Imagens 
+        img(src=imagen.data width="300")
+
