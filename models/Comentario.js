@@ -25,9 +25,8 @@ Comentario.init(
     sequelize, 
     modelName: 'Comentario', 
     tableName: 'comentarios', 
-    createdAt: true, 
-    updatedAt: false,
-    paranoid: true, //borrado logico
+    createdAt: true,
+    updatedAt: true
   },
 );
 

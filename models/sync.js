@@ -62,6 +62,13 @@ otherKey:'seguidor_id'
 })
 
 
+Imagen.hasMany(ImagenEtiqueta, { foreignKey: 'imagen_id', as: 'imagenEtiquetas' })
+ImagenEtiqueta.belongsTo(Imagen, { foreignKey: 'imagen_id', as: 'imagen' })
+
+Etiqueta.hasMany(ImagenEtiqueta, { foreignKey: 'etiqueta_id', as: 'etiquetaImagenes' })
+ImagenEtiqueta.belongsTo(Etiqueta, { foreignKey: 'etiqueta_id', as: 'etiqueta' })
+
+
 
 Usuario.hasMany(Mensaje,{foreignKey:'remitente_id',as:'mensajesEnviados',onDelete:'CASCADE' })
 Mensaje.belongsTo(Usuario,{foreignKey:'remitente_id',as:'remitente' })
@@ -109,6 +116,27 @@ as:'colecciones',
 onDelete:'CASCADE'
 })
 
+Coleccion.hasMany(ColeccionPublicacion,{
+foreignKey:'coleccion_id'
+})
+ColeccionPublicacion.belongsTo(Coleccion,{
+foreignKey:'coleccion_id'
+    
+})
+
+Publicacion.hasMany(ColeccionPublicacion,{
+foreignKey:'publicacion_id'
+
+})
+
+ColeccionPublicacion.belongsTo(Publicacion,{
+    foreignKey:'publicacion_id'
+})
+
+
+
+
+
 
 Imagen.belongsToMany(Etiqueta,{
 through:ImagenEtiqueta,
@@ -122,6 +150,16 @@ foreignKey:"etiqueta_id",
 onDelete:'CASCADE'
 
 })
+
+
+Imagen.hasMany(ImagenEtiqueta, { foreignKey: 'imagen_id' })
+ImagenEtiqueta.belongsTo(Imagen, { foreignKey: 'imagen_id' })
+
+Etiqueta.hasMany(ImagenEtiqueta, { foreignKey: 'etiqueta_id' })
+ImagenEtiqueta.belongsTo(Etiqueta, { foreignKey: 'etiqueta_id' })
+
+
+
 
 
 // usuario con publicacion 

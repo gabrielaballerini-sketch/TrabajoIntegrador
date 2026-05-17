@@ -25,9 +25,9 @@ Coleccion.init(
     sequelize, 
     modelName: 'Coleccion', 
     tableName: 'colecciones', 
-    createdAt: true, 
-    updatedAt: false,
-    paranoid: false, //borrado logico
+    createdAt: true,
+    updatedAt: true
+
   },
 );
 

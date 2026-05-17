@@ -32,8 +32,7 @@ ColeccionPublicacion.init(
     createdAt: true,
     updatedAt:false,
    
-
-
+   
   
   },
 

@@ -52,7 +52,7 @@ allowNull:true
     modelName: 'Notificacion', 
     tableName: 'notificaciones', 
     createdAt: true,
-    updatedAt: false,
+    updatedAt: true
     
   },
 

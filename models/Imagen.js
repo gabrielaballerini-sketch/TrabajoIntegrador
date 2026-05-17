@@ -44,9 +44,8 @@ Imagen.init(
     sequelize, 
     modelName: 'Imagen', 
     tableName: 'imagenes', 
-    createdAt: true, 
-    updatedAt: false,
-    paranoid: true, //borrado logico
+     createdAt: true,
+     updatedAt: true
   },
 );
 

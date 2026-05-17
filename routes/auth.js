@@ -33,6 +33,10 @@ res.redirect('/home')
 })
 
 
+
+
+
+
 router.get('/test', async (req,res)=>{
 
    const usuario = await Usuario.create({

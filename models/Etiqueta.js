@@ -24,8 +24,8 @@ Etiqueta.init(
     modelName: 'Etiqueta', 
     tableName: 'etiquetas', 
     createdAt: true, 
-    updatedAt: false,
-    paranoid: true, //borrado logico
+    updatedAt: true,
+    
   },
 );
 

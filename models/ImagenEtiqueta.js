@@ -29,7 +29,7 @@ ImagenEtiqueta.init(
     sequelize,
     modelName: 'ImagenEtiqueta',
     tableName: 'Imagenes_Etiquetas',
-    createdAt: true,
+    createdAt: false,
     updatedAt:false,
    
 

@@ -35,7 +35,7 @@ max:5,
     modelName: 'Valoracion', 
     tableName: 'valoraciones', 
     createdAt: true, 
-    updatedAt: false,
+    updatedAt: true,
 
 
 indexes:[{

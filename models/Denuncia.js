@@ -71,9 +71,8 @@ defaultValue:'pendiente'
     sequelize, 
     modelName: 'Denuncia', 
     tableName: 'denuncia', 
-    createdAt: true, 
-    updatedAt: false,
-    paranoid: true, //borrado logico
+    createdAt: true,
+    updatedAt: true
   },
 );
 
