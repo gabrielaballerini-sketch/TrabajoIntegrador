@@ -43,10 +43,33 @@ const publicacion=await Publicacion.create({
 
 for(const img of imgs){
 
-  await Imagen.create({  
-  data:img.src,
-  publicacion_id:publicacion.id
-  })
+  const textBase64 = img.src;
+
+  // separa metadata y contenido
+  const arregloBase64 = textBase64.split(',');
+
+  // obtiene jpg/png/jpeg
+  const extension = arregloBase64[0]
+    .split('/')[1]
+    .split(';')[0];
+
+  // convierte base64 -> buffer binario
+  const imgBuffer = Buffer.from(
+    arregloBase64[1],
+    'base64'
+  );
+
+  console.log(extension);
+
+  await Imagen.create({
+
+    data: imgBuffer,
+
+    metadata: extension,
+
+    publicacion_id: publicacion.id
+
+  });
 
 }
 

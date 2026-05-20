@@ -1,19 +1,37 @@
 extends layoutPrivado.pug 
 
-block contenido 
-  h1 Home 
+block contenido
 
+  .container.mt-4
 
-  //RECORRO LO Q MANDO CONTROLLER
-  each publicacion in publicaciones 
+    h1.mb-4 Home
 
-    div.card 
+    .row
 
+      each publicacion in publicaciones
 
-      h3=publicacion.titulo 
+        .col-12.mb-5
 
-      p=publicacion.descripcion 
+          .mx-auto(style="max-width:700px;")
 
-      each imagen in publicacion.Imagens 
-        img(src=imagen.data width="300")
+            .card.border-0
 
+              .card-body
+
+                h5.card-title= publicacion.titulo
+
+                p.card-text= publicacion.descripcion
+
+                // SOLO LA PRIMERA IMAGEN
+                if publicacion.Imagens.length > 0
+
+                  img.rounded.mt-3.w-100(
+                    src=publicacion.Imagens[0].src
+                    style="max-height:500px; object-fit:cover;"
+                  )
+
+                  // SI HAY MAS DE UNA
+                  if publicacion.Imagens.length > 1
+
+                    p.mt-2.text-muted
+                      | + #{publicacion.Imagens.length - 1} imágenes

@@ -30,9 +30,9 @@ Publicacion.init(
     sequelize, 
     modelName: 'Publicacion', 
     tableName: 'publicaciones', 
-    createdAt: true, 
-    updatedAt: false,
-    paranoid: true, //borrado logico
+     createdAt: true,
+    updatedAt: true,
+    paranoid: true
   },
 );
 

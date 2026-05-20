@@ -21,7 +21,7 @@ Imagen.init(
     */
 
      data: {
-      type: DataTypes.TEXT,
+      type: DataTypes.BLOB('long'),
        allowNull: false,
       },
 
@@ -37,7 +37,15 @@ Imagen.init(
     marca_agua: {
       type: DataTypes.STRING,
 
+    },
+
+    metadata:{
+
+      type:DataTypes.STRING,
+      allowNull:false
     }
+
+
     
   },
   {
