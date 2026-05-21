@@ -59,11 +59,6 @@ fileInput.addEventListener('change', (e) => {
 
       arregloImgs.push(imagen)
 
-      // const textArea = document.createElement('textarea');
-      // textArea.hidden = true;
-      // textArea.value = reader.result;
-      // textArea.name = `imgsBase64-${i}`
-      // contenedorImgs.appendChild(textArea);
 
       createImgPreview(reader.result);   
     };

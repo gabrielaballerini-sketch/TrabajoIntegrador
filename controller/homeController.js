@@ -6,15 +6,28 @@ export const mostrarHome=async(req, res)=>{
 try{
  // VOY A BD TRAE PUBLICAC E IMAGENES   
 const publicaciones=await Publicacion.findAll({
-include:Imagen
 
-})
 
+include: [
+        {
+          model: Imagen,
+          as: 'imagenes'}
+                  ]
+            });
+
+
+
+
+
+// MODIFFFF
 
 for(const publicacion of publicaciones ){
 
     // ver
-    for(const imagen of publicacion.Imagens){
+    for(const imagen of publicacion.imagenes || [] ){
+
+
+        if (!imagen?.data) continue;
 
     const imagenBase64=imagen.data.toString('base64');
 
@@ -29,20 +42,20 @@ for(const publicacion of publicaciones ){
 
 
 
-// CON LA INFO Q MANDO RENDERIZO
-// CON LA INFO Q MANDO RENDERIZO
-console.log(JSON.stringify(publicaciones,null,2))
 
+
+
+//provisorio x cookies
 res.render('home',{
-
-publicaciones
-
+    publicaciones,
+    usuario:req.usuario
 });
+
 
 
 }catch(error){
 console.error(error)
-
+return res.status(500).send("Error en home");
 
 }
 }

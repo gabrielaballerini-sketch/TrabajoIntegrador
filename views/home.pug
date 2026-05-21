@@ -22,16 +22,16 @@ block contenido
 
                 p.card-text= publicacion.descripcion
 
-                // SOLO LA PRIMERA IMAGEN
-                if publicacion.Imagens.length > 0
+               
+                if publicacion.imagenes.length > 0
 
                   img.rounded.mt-3.w-100(
-                    src=publicacion.Imagens[0].src
+                    src=publicacion.imagenes[0].src
                     style="max-height:500px; object-fit:cover;"
                   )
 
-                  // SI HAY MAS DE UNA
-                  if publicacion.Imagens.length > 1
+                 
+                  if publicacion.imagenes.length > 1
 
                     p.mt-2.text-muted
-                      | + #{publicacion.Imagens.length - 1} imágenes
+                      | + #{publicacion.imagenes.length - 1} imágenes

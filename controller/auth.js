@@ -1,61 +1,124 @@
-import{Usuario} from '../models/Usuario.js'
 
 
-export const signup=async(req,res)=>{
+// TOODO PROVISORIOOOOOO 
 
-console.log(req.body);
+import { Usuario } from '../models/Usuario.js';
 
-const{
-nombre,
-apellido,
-email,
-password,
-confPassword
 
-}=req.body;
+// MOSTRAR LOGIN
+export const mostrarLogin = (req,res)=>{
+
+    res.render('auth/login');
+}
 
 
 
-if(password!==confPassword){
-return res.render('auth/signup',{
-error:'Las contraseñas no coinciden'
+// LOGIN
+export const login = async(req,res)=>{
 
+    try{
 
-});
+    const {email,password} = req.body;
+
+    const usuario = await Usuario.findOne({
+        where:{email}
+    });
+
+    // VALIDAR EMAIL
+    if(!usuario){
+
+        return res.render('auth/login',{
+            error:'El usuario no existe'
+        });
+    }
+
+    // VALIDAR PASSWORD
+    // PROVISORIO
+    if(usuario.password !== password){
+
+        return res.render('auth/login',{
+            error:'Contraseña incorrecta'
+        });
+    }
+
+    //controles
+    console.log("ANTES COOKIE");
+
+    // GUARDAR USUARIO EN COOKIE
+    res.cookie('usuarioId', usuario.id);
+
+    //controles
+   console.log("ANTES REDIRECT");
+
+    res.redirect('/home');
+}catch(err){
+console.error("Error al ingreso",err);
+
+res.send("Error loginnn ")
+
+}
+
 
 
 }
 
 
 
-const existe=await Usuario.findOne({
-where:{email}
+
+export const signup = async(req,res)=>{
+
+    console.log(req.body);
+
+    const{
+        nombre,
+        apellido,
+        email,
+        password,
+        confPassword
+
+    }=req.body;
 
 
 
-});
+    if(password!==confPassword){
 
-if(existe){
+        return res.render('auth/signup',{
+            error:'Las contraseñas no coinciden'
+        });
+    }
 
-return res.render('auth/signup',{
-error:'El email ya esta registrado'
 
 
-})
+    const existe=await Usuario.findOne({
+        where:{email}
+    });
 
+    if(existe){
+
+        return res.render('auth/signup',{
+            error:'El email ya esta registrado'
+        });
+    }
+
+    await Usuario.create({
+
+        nombre,
+        apellido,
+        email,
+        password
+
+    });
+
+    res.redirect('/auth/login');
 
 }
 
-await Usuario.create({
-
-nombre,
-apellido,
-email,
-password
 
 
-});
+// LOGOUT
+export const logout = (req,res)=>{
 
-res.redirect('/auth/login')
+    res.clearCookie('usuarioId');
 
+    res.redirect('/auth/login');
 }
