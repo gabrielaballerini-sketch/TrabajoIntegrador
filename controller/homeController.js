@@ -45,10 +45,10 @@ for(const publicacion of publicaciones ){
 
 
 
-//provisorio x cookies
+
 res.render('home',{
     publicaciones,
-    usuario:req.usuario
+    usuario:req.session.usuario
 });
 
 

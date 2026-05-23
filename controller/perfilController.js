@@ -5,19 +5,17 @@ export const mostrarPerfil=async(req, res)=>{
 
 
 try{
-if(!req.usuario){
+if(!req.session.usuario){
 
 return res.redirect('/auth/login')
 
 }
 
-
-
  // VOY A BD TRAE PUBLICAC E IMAGENES   
 
  //eligo mi usuario
 
- const usuario=req.usuario;
+ const usuario=req.session.usuario;
 
 
 const publicaciones = await Publicacion.findAll({

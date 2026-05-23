@@ -8,15 +8,14 @@ block content
           span.navbar-toggler-icon
         #navbarNavAltMarkup.collapse.navbar-collapse
           .navbar-nav
-            a.nav-link.active(aria-current='page', href='#') Home
-            a.nav-link(href='#') Mi Perfil
+            a.nav-link.active(href='/home') Home
+            a.nav-link(href='/perfil') Mi Perfil
             a.nav-link(href='/publicaciones/crear') Crear Publicacion
             a.nav-link(href='#') Siguiendo
             a.nav-link(href='#') Favoritos
-            a.nav-link(href='#') Cerrar sesion
             a.nav-link(href='') Notificaciones
-
-            a.nav-link.disabled(aria-disabled='true') Disabled
+            a.nav-link(href='/auth/logout') Cerrar sesion
+            
 
 
     block contenido

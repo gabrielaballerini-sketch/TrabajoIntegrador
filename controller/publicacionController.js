@@ -28,15 +28,15 @@ try{
     
     
 
-
-
+// buscar el usuario correcto
+const usuario=req.session.usuario;
     
 // registro bd
 const publicacion=await Publicacion.create({
 
     titulo,
     descripcion,
-    usuario_id:1
+    usuario_id:usuario.id
  
 
 });

@@ -1,7 +1,5 @@
 
 
-// TOODO PROVISORIOOOOOO 
-
 import { Usuario } from '../models/Usuario.js';
 
 
@@ -41,14 +39,18 @@ export const login = async(req,res)=>{
         });
     }
 
-    //controles
-    console.log("ANTES COOKIE");
+ 
 
-    // GUARDAR USUARIO EN COOKIE
-    res.cookie('usuarioId', usuario.id);
 
-    //controles
-   console.log("ANTES REDIRECT");
+    req.session.usuario={
+    id:usuario.id,
+    nombre:usuario.nombre,
+    apellido:usuario.apellido,
+    email:usuario.email
+
+    }
+
+ 
 
     res.redirect('/home');
 }catch(err){
@@ -118,7 +120,8 @@ export const signup = async(req,res)=>{
 // LOGOUT
 export const logout = (req,res)=>{
 
-    res.clearCookie('usuarioId');
+    req.session.destroy(()=>{
 
     res.redirect('/auth/login');
+})
 }
