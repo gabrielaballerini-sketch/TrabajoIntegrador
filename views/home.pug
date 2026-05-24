@@ -6,32 +6,91 @@ block contenido
 
     h1.mb-4 Home
 
-    .row
+    if !publicaciones || publicaciones.length === 0
 
-      each publicacion in publicaciones
+      p.text-muted No hay publicaciones todavía
 
-        .col-12.mb-5
+    else
 
-          .mx-auto(style="max-width:700px;")
+      .row
 
-            .card.border-0
+        each publicacion in publicaciones
 
-              .card-body
+          .col-12.mb-5
 
-                h5.card-title= publicacion.titulo
+            .mx-auto(style="max-width:700px;")
 
-                p.card-text= publicacion.descripcion
+              .card.border-0
 
-               
-                if publicacion.imagenes.length > 0
+                .card-body
 
-                  img.rounded.mt-3.w-100(
-                    src=publicacion.imagenes[0].src
-                    style="max-height:500px; object-fit:cover;"
-                  )
+                  h5.card-title= publicacion.titulo
 
-                 
-                  if publicacion.imagenes.length > 1
+                  p.card-text= publicacion.descripcion
 
-                    p.mt-2.text-muted
-                      | + #{publicacion.imagenes.length - 1} imágenes
+
+
+
+
+                  if publicacion.imagenes && publicacion.imagenes.length > 0
+
+                    img.imagenPrincipal.rounded.mt-3.w-100(
+                      src=publicacion.imagenes[0].src
+                      style="max-height:500px; object-fit:cover;"
+                    )
+
+                  if publicacion.imagenes && publicacion.imagenes.length > 1
+
+                    .d-flex.gap-2.mt-3.overflow-auto
+
+                      each imagen in publicacion.imagenes
+
+                        img.miniatura.rounded(
+                          src=imagen.src
+                          data-id=imagen.id
+                          data-comentarios=JSON.stringify(imagen.Comentarios.map(c => ({ nombre: c.Usuario.nombre, contenido: c.contenido })))
+                          style="width:80px; height:80px; object-fit:cover; cursor:pointer;"
+                        )
+
+                  hr
+
+                  h6 Comentarios
+
+                  .comentariosContainer
+
+
+
+
+                    if publicacion.imagenes[0].Comentarios.length === 0
+
+
+
+
+                      p.text-muted No hay comentarios
+
+                    else
+
+
+
+
+                      each comentario in publicacion.imagenes[0].Comentarios
+
+                        .mb-2
+
+                          strong= comentario.Usuario.nombre + ': '
+
+                          span= comentario.contenido
+
+                  form.formComentario(action=`/comentarios/${publicacion.imagenes[0].id}` method="POST")
+
+                    .d-flex.gap-2.mt-3
+
+                      input.form-control(
+                        type="text"
+                        name="contenido"
+                        placeholder="Escribí un comentario"
+                      )
+
+                      button.btn.btn-dark(type="submit") Enviar
+
+  script(src="/js/home.js")

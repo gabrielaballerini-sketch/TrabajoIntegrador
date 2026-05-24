@@ -1,16 +1,12 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "./config.js";
 
-export class ImagenEtiqueta extends Model { }
+export class PublicacionEtiqueta extends Model { }
 
-ImagenEtiqueta.init(
+PublicacionEtiqueta.init(
   {
 
-  
-   
-
-
-    imagen_id: {
+          publicacion_id: {
       type: DataTypes.INTEGER,
       primaryKey:true,
       
@@ -27,8 +23,8 @@ ImagenEtiqueta.init(
  
 {
     sequelize,
-    modelName: 'ImagenEtiqueta',
-    tableName: 'Imagenes_Etiquetas',
+    modelName: 'PublicacionEtiqueta',
+    tableName: 'publicacion_etiqueta',
     createdAt: false,
     updatedAt:false,
    

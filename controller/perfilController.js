@@ -1,6 +1,10 @@
 import { Publicacion } from "../models/Publicacion.js";
 import { Imagen } from "../models/Imagen.js";
 
+import { Comentario } from "../models/Comentario.js";
+
+import { Usuario } from "../models/Usuario.js";
+
 export const mostrarPerfil=async(req, res)=>{
 
 
@@ -18,17 +22,32 @@ return res.redirect('/auth/login')
  const usuario=req.session.usuario;
 
 
-const publicaciones = await Publicacion.findAll({
-  where: {
-    usuario_id: usuario.id
-  },
-  include: [
-    {
-      model: Imagen,
-      as: 'imagenes'
-    }
-  ]
-});
+ const publicaciones = await Publicacion.findAll({
+      where: { usuario_id: usuario.id },
+      include: [
+        {
+
+          model: Imagen,
+
+          as: 'imagenes',
+
+          include: [
+            {
+
+
+              model: Comentario,
+
+              as: 'Comentarios',
+              include: [{ model: Usuario, as: 'Usuario' }]
+            }
+            ]
+
+          }
+        ]
+    });
+
+
+
 
 for(const publicacion of publicaciones ){
 
@@ -45,6 +64,8 @@ for(const publicacion of publicaciones ){
 
 
 }
+
+
 
 
 
