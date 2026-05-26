@@ -1,14 +1,9 @@
 extends layoutPrivado.pug 
 
 block contenido
-
   .container.mt-4
-
     .mb-5.text-center
-
       h1= usuario.nombre + ' ' + usuario.apellido
-
-
       p.text-muted= usuario.email
 
     h2.mb-4 Mis publicaciones
@@ -16,89 +11,58 @@ block contenido
 
 
     .row
-
-      if publicaciones.length === 0
-
-
-
+      if !publicaciones || publicaciones.length === 0
         p Todavía no hiciste publicaciones
+      else
+        each publicacion in publicaciones
 
+          .col-12.mb-5
 
+            .mx-auto(style="max-width:700px;")
+              .card.border-0.shadow-sm
+                .card-body
+                  h5.card-title= publicacion.titulo
+                  p.card-text= publicacion.descripcion
 
-      each publicacion in publicaciones
-
-        .col-12.mb-5
-
-
-          .mx-auto(style="max-width:700px;")
-
-            .card.border-0.shadow-sm
-
-
-
-              .card-body
-
-                h5.card-title= publicacion.titulo
-
-                p.card-text= publicacion.descripcion
-
-                if publicacion.imagenes && publicacion.imagenes.length > 0
-
-                  img.imagenPrincipal.rounded.mt-3.w-100(
-                    src=publicacion.imagenes[0].src
-                    style="max-height:500px; object-fit:cover;"
-                  )
-
-                if publicacion.imagenes && publicacion.imagenes.length > 1
-
-                  .d-flex.gap-2.mt-3.overflow-auto
-
-                    each imagen in publicacion.imagenes
-
-                      img.miniatura.rounded(
-                        src=imagen.src
-                        data-id=imagen.id
-                        data-comentarios=JSON.stringify(imagen.Comentarios.map(c => ({ nombre: c.Usuario.nombre, contenido: c.contenido })))
-                        style="width:80px; height:80px; object-fit:cover; cursor:pointer;"
-                      )
-
-                hr
-
-
-                h6 Comentarios
-
-                .comentariosContainer
-
-
-                  if publicacion.imagenes[0].Comentarios.length === 0
-
-
-                    p.text-muted No hay comentarios
-
-
-
-                  else
-
-                    each comentario in publicacion.imagenes[0].Comentarios
-
-                      .mb-2
-
-                        strong= comentario.Usuario.nombre + ': '
-
-                        span= comentario.contenido
-
-                form.formComentario(action=`/comentarios/${publicacion.imagenes[0].id}` method="POST")
-
-                  .d-flex.gap-2.mt-3
-
-                    input.form-control(
-                      type="text"
-                      name="contenido"
-                      placeholder="Escribí un comentario"
+                  if publicacion.imagenes && publicacion.imagenes.length > 0
+                    img.imagenPrincipal.rounded.mt-3.w-100(
+                      src=publicacion.imagenes[0].src
+                      style="max-height:500px; object-fit:cover;"
                     )
 
+                  if publicacion.imagenes && publicacion.imagenes.length > 1
+                    .d-flex.gap-2.mt-3.overflow-auto
+                      each imagen in publicacion.imagenes
+                        img.miniatura.rounded(
+                          src=imagen.src
+                          data-id=imagen.id
+                          data-comentarios=JSON.stringify(imagen.comentarios ? imagen.comentarios.map(c => ({ nombre: c.usuario.nombre, contenido: c.contenido })) : [])
+                          style="width:80px; height:80px; object-fit:cover; cursor:pointer;"
+                        )
+
+                  hr
+
+                  h6 Comentarios
+
+                  .comentariosContainer
+                    if publicacion.imagenes && publicacion.imagenes.length > 0 && publicacion.imagenes[0].comentarios && publicacion.imagenes[0].comentarios.length > 0
+                      each comentario in publicacion.imagenes[0].comentarios
+                        .mb-2
+                          strong= comentario.usuario.nombre + ': '
+                          span= comentario.contenido
+                    else
+                      p.text-muted No hay comentarios todavía
 
 
-                    button.btn.btn-dark(type="submit") Enviar
 
-  script(src="/js/home.js")
+                  form.formComentario(action=`/comentarios/${publicacion.imagenes && publicacion.imagenes.length > 0 ? publicacion.imagenes[0].id : ''}` method="POST")
+                    .d-flex.gap-2.mt-3
+                      input.form-control(
+                        type="text"
+                        name="contenido"
+                        
+                        placeholder="Escribí un comentario"
+                      )
+                      button.btn.btn-dark(type="submit") Enviar
+
+    script(src="/js/home.js")

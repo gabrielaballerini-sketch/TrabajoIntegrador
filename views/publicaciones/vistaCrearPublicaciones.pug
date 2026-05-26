@@ -28,7 +28,7 @@ block contenido
 
             input.form-control(
               type="file"
-              name="img"
+              name="imgs"
               id="img"
               multiple
             )
@@ -65,6 +65,19 @@ block contenido
 
             )
 
+            .mb-3
+
+              label.form-label Etiquetas
+
+              input.form-control(
+              type="text"
+              name="etiquetas"
+              placeholder="playa verano mar"
+              )
+ 
+
+
+
           button.btn.btn-dark.w-100(type="submit")
 
             | Publicar
@@ -72,4 +85,5 @@ block contenido
           ul#errores.mt-3.text-danger
 
 
-    script(src="/js/crearPublicacion.js")
+  script(src="/js/home.js")
+

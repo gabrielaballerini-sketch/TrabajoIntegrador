@@ -22,7 +22,7 @@ return res.redirect('/auth/login')
  const usuario=req.session.usuario;
 
 
- const publicaciones = await Publicacion.findAll({
+ const publicaciones1 = await Publicacion.findAll({
       where: { usuario_id: usuario.id },
       include: [
         {
@@ -37,8 +37,8 @@ return res.redirect('/auth/login')
 
               model: Comentario,
 
-              as: 'Comentarios',
-              include: [{ model: Usuario, as: 'Usuario' }]
+              as: 'comentarios',
+              include: [{ model: Usuario, as: 'usuario' }]
             }
             ]
 
@@ -47,12 +47,17 @@ return res.redirect('/auth/login')
     });
 
 
+//  Convertimos a objetos planos de JS para poder mutar los datos
+    const publicaciones = publicaciones1.map(p => p.get({ plain: true }));
 
 
+    // de binario a base 64
 for(const publicacion of publicaciones ){
 
-    // ver
-    for(const imagen of publicacion.imagenes){
+ 
+    for(const imagen of publicacion.imagenes|| []){
+ 
+    if (!imagen?.data) continue;
 
     const imagenBase64=imagen.data.toString('base64');
 

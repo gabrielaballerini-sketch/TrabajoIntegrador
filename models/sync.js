@@ -11,21 +11,25 @@ import {Denuncia} from'./Denuncia.js'
 import {Notificacion} from'./Notificacion.js'
 import{Coleccion}from './Coleccion.js'
 import { ColeccionPublicacion } from './ColeccionPublicacion.js'
-import{ImagenEtiqueta} from './ImagenEtiqueta.js'
 
 
-Usuario.hasMany(Publicacion,{foreignKey:'usuario_id',onDelete:'CASCADE'});
-Publicacion.belongsTo(Usuario,{foreignKey:'usuario_id'})
+import { PublicacionEtiqueta } from './PublicacionEtiqueta.js'
 
 
-Publicacion.hasMany(Imagen,{foreignKey:'publicacion_id',onDelete:'CASCADE'});
+//usuario-publicacion , agregue 2 as
+Usuario.hasMany(Publicacion,{foreignKey:'usuario_id',as:'publicaciones',onDelete:'CASCADE'});
+Publicacion.belongsTo(Usuario,{foreignKey:'usuario_id', as:'autor'})
+
+//publicacion-imagen, 1 as
+Publicacion.hasMany(Imagen,{foreignKey:'publicacion_id',as:'imagenes',onDelete:'CASCADE'});
 Imagen.belongsTo(Publicacion,{foreignKey:'publicacion_id'})
 
-Usuario.hasMany(Comentario,{foreignKey:'usuario_id'});
-Comentario.belongsTo(Usuario,{foreignKey:'usuario_id'})
 
-Publicacion.hasMany(Comentario,{foreignKey:'publicacion_id',onDelete:'CASCADE'});
-Comentario.belongsTo(Publicacion,{foreignKey:'publicacion_id'})
+Usuario.hasMany(Comentario,{foreignKey:'usuario_id'});
+Comentario.belongsTo(Usuario,{foreignKey:'usuario_id', as: 'usuario'})
+
+Imagen.hasMany(Comentario,{foreignKey:'imagen_id',as: 'comentarios',onDelete:'CASCADE'});
+Comentario.belongsTo(Imagen,{foreignKey:'imagen_id'})
 
 
 Imagen.hasMany(Valoracion,{foreignKey:'imagen_id',onDelete:'CASCADE'});
@@ -44,29 +48,24 @@ foreignKey:'usuario_id'
 })
 
 
-
+//bien
 Usuario.belongsToMany(Usuario,{
 through:Seguidor,
-as:'Seguidos',
+as:'seguidos',
 foreignKey:'seguidor_id',
 otherKey:'seguido_id'
 
 })
-
+//bien
 Usuario.belongsToMany(Usuario,{
 through:Seguidor,
-as:'Seguidores',
+as:'seguidores',
 foreignKey:'seguido_id',
 otherKey:'seguidor_id'
 
 })
 
 
-Imagen.hasMany(ImagenEtiqueta, { foreignKey: 'imagen_id', as: 'imagenEtiquetas' })
-ImagenEtiqueta.belongsTo(Imagen, { foreignKey: 'imagen_id', as: 'imagen' })
-
-Etiqueta.hasMany(ImagenEtiqueta, { foreignKey: 'etiqueta_id', as: 'etiquetaImagenes' })
-ImagenEtiqueta.belongsTo(Etiqueta, { foreignKey: 'etiqueta_id', as: 'etiqueta' })
 
 
 
@@ -89,30 +88,33 @@ Usuario.hasMany(Notificacion,{foreignKey:'actor_id', as:'accionesGeneradas',onDe
 Notificacion.belongsTo(Usuario,{foreignKey:'actor_id', as:'actor'})
 
 
-//1
+//bien
 Usuario.hasMany(Coleccion,{foreignKey:'usuario_id',onDelete:'CASCADE'})
 
-
+//bien
 Coleccion.belongsTo(Usuario,{foreignKey:'usuario_id',as:'usuario'
 
 })
 
-
+//agregue as
 Coleccion.belongsToMany(Publicacion,{
 through:ColeccionPublicacion, 
+as:'publicaciones',
 foreignKey:'coleccion_id',
 otherKey:'publicacion_id',
-as:'publicaciones',
+
 onDelete:'CASCADE'
 
 
 })
 
+//agregue as
 Publicacion.belongsToMany(Coleccion,{
 through:ColeccionPublicacion,
+as:'colecciones',
 foreignKey:'publicacion_id',
 otherKey:'coleccion_id',
-as:'colecciones',
+
 onDelete:'CASCADE'
 })
 
@@ -137,26 +139,31 @@ ColeccionPublicacion.belongsTo(Publicacion,{
 
 
 
+//borro publicacion, se borra la etiqueta
+Publicacion.belongsToMany(Etiqueta,{
+  through:PublicacionEtiqueta,
 
-Imagen.belongsToMany(Etiqueta,{
-through:ImagenEtiqueta,
-foreignKey:"imagen_id",
-onDelete:'CASCADE'
+  foreignKey:'publicacion_id',
+  otherKey:'etiqueta_id',
+  as:'etiquetas',
+  onDelete:'CASCADE'
 });
 
-Etiqueta.belongsToMany(Imagen,{
-through:ImagenEtiqueta,
-foreignKey:"etiqueta_id",
-onDelete:'CASCADE'
-
-})
 
 
-Imagen.hasMany(ImagenEtiqueta, { foreignKey: 'imagen_id' })
-ImagenEtiqueta.belongsTo(Imagen, { foreignKey: 'imagen_id' })
+// no uso cascade
+//si se borra la etiqueta no borro publicacion
 
-Etiqueta.hasMany(ImagenEtiqueta, { foreignKey: 'etiqueta_id' })
-ImagenEtiqueta.belongsTo(Etiqueta, { foreignKey: 'etiqueta_id' })
+Etiqueta.belongsToMany(Publicacion,{
+  through:PublicacionEtiqueta,
+
+  foreignKey:'etiqueta_id',
+  otherKey:'publicacion_id',
+  as:'publicaciones',
+ 
+});
+ 
+
 
 
 
@@ -180,5 +187,4 @@ as:'usuario'
 
 })
 
-//relacion usuario like?? 
 

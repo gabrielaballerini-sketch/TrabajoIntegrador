@@ -3,19 +3,38 @@ extends ./layout.pug
 block content       
     nav.navbar.navbar-expand-lg.bg-body-tertiary
       .container-fluid
-        a.navbar-brand(href='#') Fotaza
+        a.navbar-brand(href='/home') Fotaza
+
+
         button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbarNavAltMarkup', aria-controls='navbarNavAltMarkup', aria-expanded='false', aria-label='Toggle navigation')
+          
+          
           span.navbar-toggler-icon
+
         #navbarNavAltMarkup.collapse.navbar-collapse
-          .navbar-nav
+
+
+
+          .navbar-nav.me-auto
             a.nav-link.active(href='/home') Home
             a.nav-link(href='/perfil') Mi Perfil
-            a.nav-link(href='/publicaciones/crear') Crear Publicacion
+            a.nav-link(href='/publicaciones/crear') Crear Publicación
             a.nav-link(href='#') Siguiendo
             a.nav-link(href='#') Favoritos
-            a.nav-link(href='') Notificaciones
-            a.nav-link(href='/auth/logout') Cerrar sesion
-            
+            a.nav-link(href='#') Notificaciones
 
+          form.d-flex.mx-auto(action='/buscador' method='GET')
+
+            input.form-control.me-2(
+              type='search'
+              name='q'
+              placeholder='Buscar publicaciones...'
+            )
+            button.btn.btn-outline-dark(type='submit') Buscar
+
+
+
+          .navbar-nav.ms-auto
+            a.nav-link(href='/auth/logout') Cerrar sesión
 
     block contenido

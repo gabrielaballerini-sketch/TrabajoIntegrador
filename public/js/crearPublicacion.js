@@ -13,9 +13,14 @@ form.addEventListener('submit', (e) => {
   const bodyToSend = {
 
   titulo:form.titulo.value,
+
   descripcion:form.descripcion.value,
 
+  etiquetas: form.etiquetas.value,
+
+
     imgs: arregloImgs,
+
     fecha: new Date().toLocaleTimeString()
   }
   fetch(form.action, {
@@ -50,14 +55,21 @@ fileInput.addEventListener('change', (e) => {
       errores.appendChild(li)
       continue;
     }
+
+
     const reader = new FileReader();
     reader.onload = () => {
+
+      //MANDAMOS OBJETO IMAGEN
       const imagen = {
         src: reader.result,
-        name: file.name
+        name: file.name,
+       
       }
 
-      arregloImgs.push(imagen)
+      
+
+     arregloImgs.push(imagen)
 
 
       createImgPreview(reader.result);   
@@ -66,12 +78,37 @@ fileInput.addEventListener('change', (e) => {
   }
 });
 
+
+
+
+
 function createImgPreview(value) {
+
   const imgPreview = document.createElement('img');
+
+
+
   imgPreview.src = value;
+
+
+
   imgPreview.style.width = '300px';
-  contenedorPreviews.appendChild(imgPreview);  
+
+  contenedorPreviews.appendChild(imgPreview);
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
 
 function validarFile(file) {
   if (!file) return false;

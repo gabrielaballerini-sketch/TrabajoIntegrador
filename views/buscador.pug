@@ -1,0 +1,61 @@
+extends layoutPrivado.pug
+
+block contenido
+
+
+  .container.mt-4
+
+    h1.mb-4 Resultados de búsqueda
+
+    if publicaciones.length === 0
+
+
+      p.text-muted No se encontraron publicaciones
+
+    else
+
+      .row
+
+
+
+        each publicacion in publicaciones
+
+          .col-12.mb-4
+
+            .card.shadow-sm
+
+
+
+              .card-body
+
+                h4.card-title= publicacion.titulo
+
+                p.card-text= publicacion.descripcion
+
+                if publicacion.autor
+
+                  p.text-muted
+                    strong Usuario:
+                    |  #{publicacion.autor.nombre}
+
+                // etiquetas
+
+                if publicacion.etiquetas && publicacion.etiquetas.length > 0
+
+                  .mb-3
+
+
+                    each etiqueta in publicacion.etiquetas
+
+                      span.badge.text-bg-dark.me-2
+                        | ##{etiqueta.nombre}
+
+                // imagen principal
+                if publicacion.imagenes && publicacion.imagenes.length > 0
+
+
+
+                  img.rounded.w-100(
+                    src=publicacion.imagenes[0].src
+                    style="max-height:500px; object-fit:cover;"
+                  )

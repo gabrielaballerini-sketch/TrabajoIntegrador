@@ -9,10 +9,10 @@ export const mostrarHome=async(req, res)=>{
 
 try{
  // VOY A BD TRAE PUBLICAC E IMAGENES   
-const publicaciones=await Publicacion.findAll({
+const publicaciones1=await Publicacion.findAll({
 
 //voy a bd 
-// con este includes consigo el comentario de cada imagen , usuarios
+// con este includes consigo el comentario de cada imagen , usuarios y 
 
 include: [
   {
@@ -22,22 +22,44 @@ include: [
     include:[
       {
         model: Comentario,
+        as: 'comentarios',
 
         include:[
           {
-            model: Usuario
+            model: Usuario,
+             as: 'usuario'   
          }
               ]
             }
           ]
-        }
-      ]
-    });
+        },
+      
+    
+  
+  
+  {
+      model: Usuario,
+      as: 'autor'
+    }
+
+  ],
+  order: [
+    ['createdAt', 'DESC'] // Ordeno por fecha de creación de la más nueva a la más vieja
+  ]
 
 
 
 
 
+
+
+});
+  
+//solucionando problemas
+// Convertimos las instancias de Sequelize a objetos planos de JS
+    const publicaciones = publicaciones1.map(p => p.get({ plain: true }));
+
+  
 // pasamos de binario a texto formato base 64 
 
 for(const publicacion of publicaciones ){
@@ -58,9 +80,6 @@ for(const publicacion of publicaciones ){
 
 
 }
-
-
-
 
 
 
