@@ -1,122 +1,65 @@
+
+
+//selecciono del dom
+
+//aca es donde se guardan las fotoss
+
+console.log('JS cargado');
+console.log("acaaaaaaaaaa")
+
+
 const fileInput = document.getElementById('img');
 
-const errores = document.getElementById('errores');
-const contenedorImgs = document.getElementById('imgsBase64');
+console.log(fileInput);
 const contenedorPreviews = document.getElementById('imgsPreview');
 
-const form = document.forms[0];
+///VER SI SACO ESTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
-const arregloImgs = [];
-
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const bodyToSend = {
-
-  titulo:form.titulo.value,
-
-  descripcion:form.descripcion.value,
-
-  etiquetas: form.etiquetas.value,
+// Validamos que existan en la página actual antes de HACER  el evento
+if (fileInput && contenedorPreviews) {
+  console.log("Formulario de creación detectado. Activando previews...");
 
 
-    imgs: arregloImgs,
-
-    fecha: new Date().toLocaleTimeString()
-  }
-  fetch(form.action, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(bodyToSend)
-  })
-  .then((response)=>response.json())
-  .then((data)=>{
-  console.log(data);
-
-  window.location='/home'
-
-  })
-
-
-})
 
 fileInput.addEventListener('change', (e) => {
 
-  const file = e.target.files[0];
-  console.log(e.target.files);
 
-  for(let i=0; i<e.target.files.length; i++){
-    const file = e.target.files[i]
-    const resultado = validarFile(file);
-    if(!resultado){
-      const li = document.createElement('li');
-      li.innerText = `Error imagen ${file.name}`;
-      errores.appendChild(li)
-      continue;
-    }
+// limpiamos lo anterior
+
+  contenedorPreviews.innerHTML = '';
+
+//recorremos cada archivo 
+
+  for(const file of e.target.files){
 
 
-    const reader = new FileReader();
-    reader.onload = () => {
-
-      //MANDAMOS OBJETO IMAGEN
-      const imagen = {
-        src: reader.result,
-        name: file.name,
-       
-      }
-
-      
-
-     arregloImgs.push(imagen)
+    //crea una url temporal
+    const url = URL.createObjectURL(file);
 
 
-      createImgPreview(reader.result);   
-    };
-    reader.readAsDataURL(file);
+
+// creamos la imagen previa
+    createImgPreview(url);
+
   }
+
 });
-
-
-
-
-
-function createImgPreview(value) {
-
-  const imgPreview = document.createElement('img');
-
-
-
-  imgPreview.src = value;
-
-
-
-  imgPreview.style.width = '300px';
-
-  contenedorPreviews.appendChild(imgPreview);
-
-
-
 }
 
+//para ver la vista previa ..todo lo qhay q hacer
+function createImgPreview(src) {
 
 
+  // Creooo una columna 
+  const col = document.createElement('div');
+  col.classList.add('col-4'); // 3 imágenes por fila
 
+  const img = document.createElement('img');
+  img.src = src;
+  img.classList.add('img-fluid', 'rounded'); // bbootstrap para que sea responsive
+  img.style.height = '150px';
+  img.style.objectFit = 'cover';
 
-
-
-
-
-
-
-function validarFile(file) {
-  if (!file) return false;
-
-  if(file.size > 1000000){
-    console.error('No podes subir mas de 1mb')
-    return false;
-  }
-
-  return true;
+  col.appendChild(img);
+  contenedorPreviews.appendChild(col);
 }

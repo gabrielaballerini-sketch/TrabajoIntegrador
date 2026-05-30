@@ -1,0 +1,8 @@
+mixin alert(alertData)
+  if alertData
+
+    div(class=`alert alert-${alertData.status === 'error' ? 'danger' : 'success'} alert-dismissible fade show mt-3`, role='alert')
+      strong= alertData.status === 'error' ? '¡Atención! ' : '¡Éxito! '
+      span= alertData.text
+      
+      button(type="button", class="btn-close", data-bs-dismiss="alert", aria-label="Close")

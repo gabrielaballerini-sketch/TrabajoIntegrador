@@ -32,7 +32,7 @@ Imagen.hasMany(Comentario,{foreignKey:'imagen_id',as: 'comentarios',onDelete:'CA
 Comentario.belongsTo(Imagen,{foreignKey:'imagen_id'})
 
 
-Imagen.hasMany(Valoracion,{foreignKey:'imagen_id',onDelete:'CASCADE'});
+Imagen.hasMany(Valoracion,{foreignKey:'imagen_id', as: 'valoraciones',onDelete:'CASCADE'});
 Valoracion.belongsTo(Imagen,{foreignKey:'imagen_id'})
 
 
@@ -53,17 +53,18 @@ Usuario.belongsToMany(Usuario,{
 through:Seguidor,
 as:'seguidos',
 foreignKey:'seguidor_id',
-otherKey:'seguido_id'
-
+otherKey:'seguido_id',
+onDelete: 'CASCADE'
 })
 //bien
 Usuario.belongsToMany(Usuario,{
 through:Seguidor,
 as:'seguidores',
 foreignKey:'seguido_id',
-otherKey:'seguidor_id'
-
+otherKey:'seguidor_id',
+onDelete: 'CASCADE'
 })
+
 
 
 
@@ -119,7 +120,8 @@ onDelete:'CASCADE'
 })
 
 Coleccion.hasMany(ColeccionPublicacion,{
-foreignKey:'coleccion_id'
+foreignKey:'coleccion_id',
+onDelete: 'CASCADE'
 })
 ColeccionPublicacion.belongsTo(Coleccion,{
 foreignKey:'coleccion_id'
@@ -127,7 +129,8 @@ foreignKey:'coleccion_id'
 })
 
 Publicacion.hasMany(ColeccionPublicacion,{
-foreignKey:'publicacion_id'
+foreignKey:'publicacion_id',
+onDelete: 'CASCADE'
 
 })
 
@@ -160,6 +163,7 @@ Etiqueta.belongsToMany(Publicacion,{
   foreignKey:'etiqueta_id',
   otherKey:'publicacion_id',
   as:'publicaciones',
+   onDelete:'CASCADE'
  
 });
  

@@ -1,4 +1,5 @@
 extends ../layoutPublico.pug
+include ../mixins/alert
 
 block metadata
   title Iniciar sesión
@@ -8,6 +9,7 @@ block formulario
           .card-body
 
             h3.card-title.text-center.mb-4 Iniciar sesión
+            +alert(alert)
 
             form(method='POST', action='/auth/login')
 
@@ -17,7 +19,8 @@ block formulario
                   type='email',
                   id='email',
                   name='email',
-                  required
+                  required,
+                  value=formValues ? formValues.email : ''
                 )
 
               .mb-3
@@ -31,6 +34,10 @@ block formulario
 
               button.btn.btn-primary.w-100.mb-3(type='submit')
                 | Ingresar
+
+              a.btn.btn-outline-secondary.w-100.mb-3(href='/home')
+                | Continuar como invitado
+
 
               p.text-center
                 | ¿No tenés cuenta?

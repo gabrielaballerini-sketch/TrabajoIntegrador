@@ -1,4 +1,5 @@
 extends ../layoutPublico.pug
+include ../mixins/alert
 
 block metadata
   title Registrarse
@@ -10,9 +11,10 @@ block formulario
 
             h3.card-title.text-center.mb-4 Registrarse
             
+            +alert(alert)
            
-            if error 
-              .alert.alert-danger=error
+          
+              
 
 
 
@@ -24,7 +26,8 @@ block formulario
                   type='text',
                   id='nombre',
                   name='nombre',
-                  required
+                  required,
+                  value=formValues ? formValues.nombre : ''
                 )
 
               .mb-3
@@ -33,7 +36,8 @@ block formulario
                   type='text',
                   id='apellido',
                   name='apellido',
-                  required
+                  required,
+                  value=formValues ? formValues.apellido : ''
                 )
 
               .mb-3
@@ -42,7 +46,8 @@ block formulario
                   type='email',
                   id='email',
                   name='email',
-                  required
+                  required,
+                  value=formValues ? formValues.email : ''
                 )
 
               .mb-3 
@@ -50,7 +55,8 @@ block formulario
                 input.form-control(
                   type='text',
                   id='telefono',
-                  name='telefono'
+                  name='telefono',
+                  value=formValues ? formValues.telefono : ''
 
                 )
 
@@ -61,7 +67,8 @@ block formulario
                 input.form-control(
                 type='date',
                 id='nacimiento',
-                name='nacimiento'
+                name='nacimiento',
+                value=formValues ? formValues.nacimiento : ''
 
                 )    
 

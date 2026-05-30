@@ -1,23 +1,36 @@
 extends layoutPrivado.pug 
 
 block contenido
+
   .container.mt-4
     .mb-5.text-center
       h1= usuario.nombre + ' ' + usuario.apellido
       p.text-muted= usuario.email
 
+      // Contadores de Seguidores y Siguiendo
+      .d-flex.justify-content-center.gap-3.mb-3
+        span.badge.bg-dark.p-2 
+          | Seguidores: #{cantidadSeguidores || 0}
+        span.badge.bg-secondary.p-2 
+          | Siguiendo: #{cantidadSiguiendo || 0}
+
+      //  para evitar fallos de ID con los tipos de datos
+      if usuario.id != usuarioLogueado.id
+        if siguiendo
+          form(action=`/usuarios/${usuario.id}/dejar-seguir` method="POST")
+            button.btn.btn-outline-dark(type="submit") Dejar de seguir
+        else
+          form(action=`/usuarios/${usuario.id}/seguir` method="POST")
+            button.btn.btn-dark(type="submit") Seguir
+
     h2.mb-4 Mis publicaciones
-
-
 
     .row
       if !publicaciones || publicaciones.length === 0
         p Todavía no hiciste publicaciones
       else
         each publicacion in publicaciones
-
           .col-12.mb-5
-
             .mx-auto(style="max-width:700px;")
               .card.border-0.shadow-sm
                 .card-body
@@ -41,9 +54,7 @@ block contenido
                         )
 
                   hr
-
                   h6 Comentarios
-
                   .comentariosContainer
                     if publicacion.imagenes && publicacion.imagenes.length > 0 && publicacion.imagenes[0].comentarios && publicacion.imagenes[0].comentarios.length > 0
                       each comentario in publicacion.imagenes[0].comentarios
@@ -53,14 +64,11 @@ block contenido
                     else
                       p.text-muted No hay comentarios todavía
 
-
-
                   form.formComentario(action=`/comentarios/${publicacion.imagenes && publicacion.imagenes.length > 0 ? publicacion.imagenes[0].id : ''}` method="POST")
                     .d-flex.gap-2.mt-3
                       input.form-control(
                         type="text"
                         name="contenido"
-                        
                         placeholder="Escribí un comentario"
                       )
                       button.btn.btn-dark(type="submit") Enviar

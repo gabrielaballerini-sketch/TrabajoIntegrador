@@ -1,8 +1,18 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "./config.js";
+import bcrypt from 'bcrypt';
 
 
-export class Usuario extends Model {}
+export class Usuario extends Model {
+
+ async validatePassword(password){
+    return await bcrypt.compare(password,this.password);
+  }
+
+}
+
+
+
 
 Usuario.init(
   {
@@ -21,7 +31,7 @@ Usuario.init(
     },
 
     password: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING,// 255
       allowNull: false
     },
     email: {
@@ -54,6 +64,35 @@ Usuario.init(
     tableName: 'usuarios', // nombre de la tabla
     createdAt: true, // cada vez que crea un usuario coloca la fecha de creacion
     paranoid: true, //o deleatat?? cada vez que se elimina un usuario coloca la fecha de eliminacion
-  },
+    
+    //29/05
+
+
+
+ hooks:{
+    beforeSave: async(usuario)=>{
+
+      // solo si cambió el password
+      if(!usuario.changed('password')) return;
+
+      const salt = await bcrypt.genSalt(10);
+
+      const hashedPassword = await bcrypt.hash(
+        usuario.password,
+        salt
+      );
+
+      usuario.password = hashedPassword;
+    }
+
+
+    }
+
+      
+   
+  
+  
+  
+  }
 );
 
