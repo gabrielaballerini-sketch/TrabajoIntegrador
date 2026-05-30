@@ -1,25 +1,28 @@
 import { Router } from "express"
 import { Usuario } from '../models/Usuario.js';
-import { signup,login,mostrarLogin,logout } from "../controller/auth.js";
-
-
+import { login,signup, logout, loginForm, signupForm  } from "../controller/auth.js";
 
 
 
 const router = Router()
 
 
+//registro
+router.get('/signup',signupForm);
+
+//luego mostrara , desp del envio
 router.post('/signup', signup);
 
-router.get('/login', mostrarLogin);
-
+//entro 
+router.get('/login', loginForm);
+//proceso
 router.post('/login',login)
 
+
+//cierro
 router.get('/logout', logout);
 
-router.get('/signup', (req, res) => {
-  res.render('auth/signup')
-})
+
 
 router.get('/anonimo', (req, res) => {
   res.render('auth/anonimo')
