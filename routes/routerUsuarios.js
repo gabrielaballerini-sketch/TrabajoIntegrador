@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import{mostrarPerfilPublico, mostrarPerfil} from '../controller/perfilController.js'
 
-import { seguirUsuario, dejarDeSeguir } from '../controller/seguidorController.js';
+import { seguirUsuario, dejarDeSeguir,verSeguidores,verSeguidos } from '../controller/seguidorController.js';
 
 
 const router=Router();
@@ -15,6 +15,10 @@ router.get('/:id', mostrarPerfilPublico);
 router.post('/:id/seguir', seguirUsuario);
 router.post('/:id/dejar-seguir', dejarDeSeguir);
 
+
+router.get('/seguidores', verSeguidores);
+
+router.get('/siguiendo', verSeguidos);
 
 
 

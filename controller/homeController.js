@@ -135,7 +135,14 @@ imagen.puedeVotar = usuarioLogueado
 
 
 
-
+console.log('PRIMERA PUBLICACION');
+console.log(
+  publicaciones[0]?.imagenes?.map(img => ({
+    id: img.id,
+    puedeVotar: img.puedeVotar,
+    miVoto: img.miVoto
+  }))
+);
 
 
 

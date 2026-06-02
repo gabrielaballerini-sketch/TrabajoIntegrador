@@ -6,7 +6,7 @@ extends ./layout.pug
 block content
 
 
-  nav.navbar.navbar-expand-lg.bg-body-tertiary
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
 
 
     .container-fluid
@@ -30,10 +30,11 @@ block content
         .navbar-nav.me-auto
         
 
-          a.nav-link.active(href='/home') Home
+          a.nav-link(href='/home') Home
           a.nav-link(href='/perfil') Mi Perfil
           a.nav-link(href='/publicaciones/crear') Crear Publicación
-          a.nav-link(href='#') Siguiendo
+          a.nav-link(href='href="/seguidores"') Seguidores: #{cantidadSeguidores}
+          a.nav-link(href='href="/siguiendo') Siguiendo: #{cantidadSiguiendo}
           a.nav-link(href='#') Favoritos
           a.nav-link(href='#') Notificaciones
 

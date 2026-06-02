@@ -1,0 +1,24 @@
+extends layoutPrivado
+
+block contenido
+
+  .container.mt-4
+
+    h2.mb-4= titulo
+
+    if usuarios.length === 0
+      p.text-muted No hay usuarios para mostrar
+
+    else
+
+      each usuario in usuarios
+
+        .card.mb-2
+          .card-body.d-flex.justify-content-between.align-items-center
+
+            div
+              strong= usuario.nombre + ' ' + usuario.apellido
+
+            a.btn.btn-outline-dark.btn-sm(
+              href=`/usuarios/${usuario.id}`
+            ) Ver perfil

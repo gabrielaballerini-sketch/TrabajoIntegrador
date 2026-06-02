@@ -40,11 +40,11 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-//ver maxAge
+
 
 // permite que, una vez que alguien inicia sesión, la página lo recuerde
 app.use(session({
-secret: 'fotaza-secreto',
+secret: process.env.SESSION_KEY,
 resave: false, //Le dice a la sesión que no vuelva a guardarse en el servidor si no hubo cambio
 saveUninitialized: false,//Evita que se guarden sesiones "vacías" de gente que entra a la web pero no hace login
 cookie: { secure: false,

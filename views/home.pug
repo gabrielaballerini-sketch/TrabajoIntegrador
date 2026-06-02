@@ -43,46 +43,76 @@ block contenido
 
                     //- VALORACIÓN
                     .mt-3
-                      p.mb-1 #[strong Valoración:] #{publicacion.imagenes[0].promedio || 0} ★ (#{publicacion.imagenes[0].cantidadValoraciones || 0} votos)
+                                        
+                      p.mb-1
+                         strong Valoración Promedio:
 
-                      if publicacion.imagenes[0].miVoto
-                        p.text-success.small Ya votaste esta imagen con #{publicacion.imagenes[0].miVoto} ★
-                      else if publicacion.imagenes[0].puedeVotar
-                        form(action=`/valoraciones/imagenes/${publicacion.imagenes[0].id}/valorar` method="POST").d-flex.align-items-center.gap-1
-                          each val in [1,2,3,4,5]
-                            button.btn.btn-link.p-0.border-0(type="submit" name="puntaje" value=val style="font-size:1.8rem;text-decoration:none;") ★
-                      else if usuarioLogueado
-                        p.text-muted.small No puedes valorar tu propia publicación.
-                      else
-                        p.text-muted.small #[a(href="/auth/login") Inicia sesión] para puntuar esta imagen.
+                         span.promedioValoracion.ms-1 #{publicacion.imagenes[0].promedio || 0}
+                         |  (
+                         span.cantidadValoraciones #{publicacion.imagenes[0].cantidadValoraciones || 0}
+                         |  votos)
 
-                    //- MINIATURAS
+
+
+
+                         
+                      .valoracionContainer     
+                       
+                        if publicacion.imagenes[0].miVoto
+                          - const miPuntaje = parseInt(publicacion.imagenes[0].miVoto);
+                          .star-rating
+                            - for (let i = 1; i <= 5; i++)
+                              if i <= miPuntaje
+                                span(style="color: #FFD700; font-size: 1.2rem;") ★
+                              else
+                                span(style="color: #6c757d; font-size: 1.2rem;") ☆
+                          small.ms-2 ¡Ya votaste!
+
+
+
+
+                        else if publicacion.imagenes[0].puedeVotar
+                         form.formValoracion(action=`/valoraciones/imagenes/${publicacion.imagenes[0].id}/valorar` method="POST").d-flex.align-items-center.gap-1
+                           each val in [1,2,3,4,5]
+                             button.btn.btn-link.p-0.border-0(type="submit" name="puntaje" value=val style="font-size:1.8rem;text-decoration:none;") ★
+                        else if usuarioLogueado
+                        p.text-muted.small No puedes valorar tu propia publicación.                        else
+                          p.text-muted.small #[a(href="/auth/login") Inicia sesión] para puntuar esta imagen.
+
+                   
                     if publicacion.imagenes.length > 1
                       .d-flex.gap-2.mt-3.overflow-auto
                         each imagen in publicacion.imagenes
                           img.miniatura.rounded(
-                            src=imagen.src
-                            data-id=imagen.id
-                            data-comentarios=JSON.stringify(imagen.comentarios || [])
-                            style="width:80px;height:80px;object-fit:cover;cursor:pointer;"
-                          )
-                    
+                          src=imagen.src
+                          data-id=imagen.id
+
+                          data-promedio=imagen.promedio || 0
+                          data-cantidad=imagen.cantidadValoraciones || 0
+                          data-puedevotar=imagen.puedeVotar ? 'true' : 'false'
+                          data-mivoto=imagen.miVoto ? String(imagen.miVoto) : ''
+                          data-autor=publicacion.autor.id
+                            
+                          data-comentarios=JSON.stringify(imagen.comentarios || [])
+                          style="width:80px;height:80px;object-fit:cover;cursor:pointer;"
+                             )
+                     
                     hr
                     
-                    //- COMENTARIOS
+              
                     h6 Comentarios
                     .comentariosContainer
                       if publicacion.imagenes[0].comentarios && publicacion.imagenes[0].comentarios.length > 0
                         each comentario in publicacion.imagenes[0].comentarios
-                          .mb-2
-                            strong= comentario.usuario.nombre + ': '
-                            span= comentario.contenido
+                              .mb-2
+                                strong= comentario.usuario.nombre + ': '
+                                span= comentario.contenido
                       else
-                        p.text-muted No hay comentarios todavía
+                          p.text-muted No hay comentarios todavía
 
                     form.formComentario(action=`/comentarios/${publicacion.imagenes[0].id}` method="POST")
-                      .d-flex.gap-2.mt-3
-                        input.form-control(type="text" name="contenido" placeholder="Escribí un comentario..." required)
-                        button.btn.btn-dark(type="submit") Enviar
-
+                        .d-flex.gap-2.mt-3
+                            input.form-control(type="text" name="contenido" placeholder="Escribí un comentario..." required)
+                            button.btn.btn-dark(type="submit") Enviar
+   
   script(src="/js/home.js")

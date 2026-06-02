@@ -15,9 +15,7 @@ export async function valorarImagen(req, res) {
             model: Publicacion
               }]
                });
-
-               
-
+          
 
 
 
@@ -25,13 +23,12 @@ export async function valorarImagen(req, res) {
         if (!imagen) {
             return res.status(404).send('Imagen no encontrada');
         }
-         console.log("ACA")
-         console.log('IMAGEN KEYS:', JSON.stringify(Object.keys(imagen.dataValues)));
+  
 
         const autorId = imagen.Publicacion.usuario_id;
 
         
- 
+          //verifico q no sea el autor para q no se valore a si mismo
          if (String(autorId) === String(usuarioId)) {
 
             return res.status(400).send(
@@ -64,7 +61,7 @@ export async function valorarImagen(req, res) {
             imagen_id: imagenId
         });
 
-        return res.redirect('/home#pub-1');
+        return res.redirect(`/home#pub-${imagen.Publicacion.id}`);
 
     } catch (error) {
         console.error(error);

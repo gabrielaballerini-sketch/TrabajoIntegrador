@@ -1,6 +1,8 @@
 
 import { Seguidor } from "../models/Seguidor.js";
 
+import { Usuario } from "../models/Usuario.js";
+
 export const seguirUsuario = async (req,res)=>{
 
 try{
@@ -56,3 +58,64 @@ export const dejarDeSeguir = async (req, res) => {
     res.status(500).send('Error al dejar de seguir');
   }
 };
+
+
+export const verSeguidores = async (req,res)=>{
+
+try{
+
+    const usuarioId = req.session.usuario.id;
+
+    const usuario = await Usuario.findByPk(usuarioId,{
+        include:[
+            {
+                model: Usuario,
+                as:'seguidores',
+                through:{ attributes:[] }
+            }
+        ]
+    });
+
+    res.render('seguidores',{
+        usuarios: usuario.seguidores,
+        titulo:'Mis seguidores'
+    });
+
+}catch(error){
+
+    console.error(error);
+    res.status(500).send('Error al cargar seguidores');
+
+}
+
+}
+
+export const verSeguidos = async (req,res)=>{
+
+try{
+
+    const usuarioId = req.session.usuario.id;
+
+    const usuario = await Usuario.findByPk(usuarioId,{
+        include:[
+            {
+                model: Usuario,
+                as:'seguidos',
+                through:{ attributes:[] }
+            }
+        ]
+    });
+
+    res.render('seguidores',{
+        usuarios: usuario.seguidos,
+        titulo:'Usuarios que sigo'
+    });
+
+}catch(error){
+
+    console.error(error);
+    res.status(500).send('Error al cargar seguidos');
+
+}
+
+}
