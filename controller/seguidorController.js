@@ -28,7 +28,10 @@ if (parseInt(seguidorId, 10) === parseInt(seguidoId, 10)) {
     }
   });
 
- res.redirect(`/usuarios/${seguidoId}`);
+  //pasaba al perfil antes
+ // res.redirect(`/usuarios/${seguidoId}`);
+
+ res.redirect(`/home`); 
 
 }catch(error){
 console.error(error);
@@ -50,7 +53,8 @@ export const dejarDeSeguir = async (req, res) => {
     })
 
 
-    res.redirect(`/usuarios/${seguidoId}`);
+    //res.redirect(`/usuarios/${seguidoId}`);
+     res.redirect(`/home`); 
   
   
   } catch (error) {
