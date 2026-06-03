@@ -1,4 +1,4 @@
-import { sequelize } from '/.app.js'
+import { sequelize } from './app.js'
 
 
 async function inicializarDB() {
