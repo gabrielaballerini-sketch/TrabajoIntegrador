@@ -146,7 +146,7 @@ if (valoracionContainer) {
     } else {
       contenedor.innerHTML = comentarios.map(comen => `
         <div class="mb-2">
-          <strong>${comen.nombre}: </strong>
+          <strong>${comen.usuario?.nombre ?? 'Usuario'}: </strong>
           <span>${comen.contenido}</span>
         </div>
       `).join('');

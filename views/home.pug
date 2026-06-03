@@ -24,8 +24,14 @@ block contenido
                           span.badge.bg-light.text-dark.border Tú
                         else
                           a.fw-bold.m-0.text-decoration-none.text-dark(href=`/usuarios/${publicacion.autor.id}`)= publicacion.autor.nombre + ' ' + publicacion.autor.apellido
-                          if publicacion.siguiendoAutor
-                            span.badge.bg-success.ms-2 Siguiendo
+                          if usuarioLogueado
+                            if publicacion.siguiendoAutor
+                              form.d-inline(action=`/usuarios/${publicacion.autor.id}/dejar-seguir` method="POST")
+                                button.btn.btn-outline-dark.btn-sm.ms-2(type="submit") Dejar de seguir
+                            else
+                              form.d-inline(action=`/usuarios/${publicacion.autor.id}/seguir` method="POST")
+                                button.btn.btn-dark.btn-sm.ms-2(type="submit") Seguir
+
                       else
                         span.fw-bold.m-0.text-muted Usuario Anónimo
                     small.text-muted= new Date(publicacion.createdAt).toLocaleDateString()
@@ -76,8 +82,12 @@ block contenido
                            each val in [1,2,3,4,5]
                              button.btn.btn-link.p-0.border-0(type="submit" name="puntaje" value=val style="font-size:1.8rem;text-decoration:none;") ★
                         else if usuarioLogueado
-                        p.text-muted.small No puedes valorar tu propia publicación.                        else
-                          p.text-muted.small #[a(href="/auth/login") Inicia sesión] para puntuar esta imagen.
+                          p.text-muted.small No puedes valorar tu propia publicación.                        
+                          
+                        else
+                          p.text-muted.small 
+                          a(href="/auth/login") Inicia sesión
+                            |  para puntuar esta imagen.
 
                    
                     if publicacion.imagenes.length > 1

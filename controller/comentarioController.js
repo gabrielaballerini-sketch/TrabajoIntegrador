@@ -8,7 +8,7 @@ export const crearComentario = async(req,res)=>{
    try{
 
 
-    /*probando
+   
 
     console.log('ENTRE');
 
@@ -18,7 +18,7 @@ export const crearComentario = async(req,res)=>{
 
     console.log('SESSION:', req.session.usuario);
 
-    */
+  
 
     const {contenido} = req.body;
 
