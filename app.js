@@ -124,7 +124,7 @@ sequelize.sync({ alter: true })
   })
 
 
-
+export default app;
 
 
 
