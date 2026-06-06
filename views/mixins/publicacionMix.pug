@@ -1,0 +1,142 @@
+mixin tarjetaPublicacion(publicacion, usuarioLogueado)
+  .card.border-0.shadow.rounded-4(style="border-top: 4px solid #667eea !important;")
+    .card-body(style="background:#fafafa; border-radius: 16px;")
+
+      //- ENCABEZADO: licencia + autor + fecha
+      .d-flex.align-items-center.justify-content-between.mb-3
+
+        .d-flex.align-items-center.gap-2
+
+          if publicacion.imagenes && publicacion.imagenes[0]
+            if publicacion.imagenes[0].licencia === 'copyright'
+              span.badge.bg-danger.fs-6.me-2 🔒 Privada
+            else
+              span.badge.bg-success.fs-6.me-2 🔓 Pública
+
+          if publicacion.autor
+            if usuarioLogueado && String(publicacion.autor.id) === String(usuarioLogueado.id)
+              a.fw-bold.text-decoration-none.text-dark(href="/perfil")
+                = publicacion.autor.nombre + ' ' + publicacion.autor.apellido
+              span.badge.bg-light.text-dark.border.ms-1 Tú
+            else
+              a.fw-bold.text-decoration-none.text-dark(href=`/usuarios/${publicacion.autor.id}`)
+                = publicacion.autor.nombre + ' ' + publicacion.autor.apellido
+              if usuarioLogueado
+                if publicacion.siguiendoAutor
+                  form(action=`/usuarios/${publicacion.autor.id}/dejar-seguir` method="POST")
+                    button.btn.btn-sm.btn-success.ms-2(type="submit") Siguiendo
+                else
+                  form(action=`/usuarios/${publicacion.autor.id}/seguir` method="POST")
+                    button.btn.btn-sm.btn-outline-primary.ms-2(type="submit") Seguir
+              else
+                a.btn.btn-sm.btn-outline-secondary.ms-2(href="/auth/login") Seguir
+          else
+            span.fw-bold.text-muted Usuario Anónimo
+
+        small.text-muted= new Date(publicacion.createdAt).toLocaleDateString()
+
+      //- TÍTULO Y DESCRIPCIÓN
+      h5.card-title= publicacion.titulo
+      p.card-text= publicacion.descripcion
+      hr.text-muted.opacity-25
+
+      if usuarioLogueado && publicacion.autor && String(publicacion.autor.id) === String(usuarioLogueado.id)
+        form(action=`/publicaciones/${publicacion.id}/eliminar` method="POST")
+          button.btn.btn-sm.btn-outline-danger(type="submit") 🗑 Eliminar
+
+
+      //- IMAGEN PRINCIPAL + VALORACIÓN
+      if publicacion.imagenes && publicacion.imagenes.length > 0
+        img.imagenPrincipal.rounded.mt-3.w-100(
+          src=publicacion.imagenes[0].src
+          style="max-height:500px; object-fit:cover;"
+        )
+
+        //- VALORACIÓN
+        .mt-3
+          p.mb-1
+            strong Valoración promedio:
+            span.promedioValoracion.ms-1= publicacion.imagenes[0].promedio || 0
+            |  (
+            span.cantidadValoraciones= publicacion.imagenes[0].cantidadValoraciones || 0
+            |  votos)
+
+          .valoracionContainer
+            if publicacion.imagenes[0].miVoto
+              - const miPuntaje = parseInt(publicacion.imagenes[0].miVoto)
+              .star-rating
+                - for (let i = 1; i <= 5; i++)
+                  if i <= miPuntaje
+                    span(style="color:#FFD700; font-size:1.2rem;") ★
+                  else
+                    span(style="color:#6c757d; font-size:1.2rem;") ☆
+              small.ms-2 ¡Ya votaste!
+
+            else if publicacion.imagenes[0].puedeVotar
+              form.formValoracion(
+                action=`/valoraciones/imagenes/${publicacion.imagenes[0].id}/valorar`
+                method="POST"
+              ).d-flex.align-items-center.gap-1
+                each val in [1,2,3,4,5]
+                  button.btn.btn-link.p-0.border-0(
+                    type="submit"
+                    name="puntaje"
+                    value=val
+                    style="font-size:1.8rem; text-decoration:none;"
+                  ) ★
+
+            else if usuarioLogueado
+              p.text-muted.small No podés valorar tu propia publicación.
+
+            else
+              p.text-muted.small
+                a(href="/auth/login") Iniciá sesión
+                |  para puntuar esta imagen.
+
+        //- MINIATURAS (solo si hay más de una imagen)
+        if publicacion.imagenes.length > 1
+          .d-flex.gap-2.mt-3.overflow-auto
+            each imagen in publicacion.imagenes
+              img.miniatura.rounded(
+                src=imagen.src
+                data-id=imagen.id
+                data-promedio=imagen.promedio || 0
+                data-cantidad=imagen.cantidadValoraciones || 0
+                data-puedevotar=imagen.puedeVotar ? 'true' : 'false'
+                data-mivoto=imagen.miVoto ? String(imagen.miVoto) : ''
+                data-autor=publicacion.autor ? publicacion.autor.id : ''
+                data-comentarios=JSON.stringify(imagen.comentarios || [])
+                style="width:80px; height:80px; object-fit:cover; cursor:pointer;"
+              )
+
+      //- COMENTARIOS
+      hr
+      h6 Comentarios
+
+      .comentariosContainer
+        if publicacion.imagenes && publicacion.imagenes[0] && publicacion.imagenes[0].comentarios && publicacion.imagenes[0].comentarios.length > 0
+          each comentario in publicacion.imagenes[0].comentarios
+            .mb-2
+              strong= comentario.usuario.nombre + ': '
+              span= comentario.contenido
+        else
+          p.text-muted No hay comentarios todavía
+
+      if publicacion.imagenes && publicacion.imagenes.length > 0
+        if usuarioLogueado
+          form.formComentario(
+            action=`/comentarios/${publicacion.imagenes[0].id}`
+            method="POST"
+          )
+            .d-flex.gap-2.mt-3
+              input.form-control(
+                type="text"
+                name="contenido"
+                placeholder="Escribí un comentario..."
+                required
+              )
+              button.btn.btn-dark(type="submit") Enviar
+        else
+          p.text-muted.small.mt-2
+            a(href="/auth/login") Iniciá sesión
+            |  para comentar.

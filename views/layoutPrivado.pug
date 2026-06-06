@@ -6,7 +6,7 @@ extends ./layout.pug
 block content
 
 
-  nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+  nav.navbar.navbar-expand-lg.navbar-dark.sticky-top(style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 2px 15px rgba(0,0,0,0.3);")
 
 
     .container-fluid
@@ -33,8 +33,9 @@ block content
           a.nav-link(href='/home') Home
           a.nav-link(href='/perfil') Mi Perfil
           a.nav-link(href='/publicaciones/crear') Crear Publicación
-          a.nav-link(href='href="/seguidores"') Seguidores: #{cantidadSeguidores}
-          a.nav-link(href='href="/siguiendo') Siguiendo: #{cantidadSiguiendo}
+          a.nav-link(href='/usuarios/seguidores') Seguidores: #{cantidadSeguidores}
+          a.nav-link(href='/usuarios/siguiendo') Siguiendo: #{cantidadSiguiendo}
+          a.nav-link(href='/usuarios/siguiendo/publicaciones') Novedades
           a.nav-link(href='#') Favoritos
           a.nav-link(href='#') Notificaciones
 
@@ -68,7 +69,7 @@ block content
 
 
 
-          button.btn.btn-outline-dark(type='submit')
+          button.btn.btn-outline-light(type='submit')
             | Buscar
 
         .navbar-nav.ms-auto

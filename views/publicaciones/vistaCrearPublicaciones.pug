@@ -16,7 +16,7 @@ block contenido
       .card-body.p-4
 
 
-        h2.mb-4.text-center Crear publicación
+        h1.mb-4.text-center(style="color:#667eea; letter-spacing:1px;") Crear publicación
 
         form(action="/publicaciones/crear" method="post" enctype="multipart/form-data")
 
@@ -41,6 +41,7 @@ block contenido
 
             label.form-label Título
 
+
             input.form-control(
               type="text"
 
@@ -50,7 +51,14 @@ block contenido
             )
 
           .mb-4
-
+          label.form-label(for="licencia") Tipo de Licencia
+            select.form-select(name="licencia")
+              option(value="sincopyright") 🔓 Pública
+              option(value="copyright") 🔒 Privada
+                     
+            .form-text Elegí si otros pueden usar tu imagen o si prefieres protegerla.
+                
+          .mb-4
 
             label.form-label Descripción
 

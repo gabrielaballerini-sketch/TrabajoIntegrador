@@ -31,7 +31,8 @@ export const mostrarPerfil = async (req, res) => {
               include: [{ model: Usuario, as: 'usuario' }]
             }
           ]
-        }
+        },
+        { model: Usuario, as: 'autor' }
       ]
     });
      
@@ -129,7 +130,8 @@ export const mostrarPerfilPublico = async (req, res) => {
               ]
             }
           ]
-        }
+        },
+         { model: Usuario, as: 'autor' }
       ]
     });
 
@@ -176,21 +178,6 @@ console.log("SIGUIENDO:", !!relacion);
 
 
 
-
-    // siguiendo: doble negacion..!!relacion,  manda true o false REAL
-    // aca evaluo , si yo tengo id : 20 , seguidor id:1 , seguidoid:2
-    //primer caso:: 
-   // Primera negación (!relacion): Evalúa el objeto. Como un objeto existente es un valor verdadero , al negarlo lo convierte en false.
-    // Segunda negación (!!relacion): Niega el resultado anterior. Al negar false, se convierte en true.
-   
-    //segundo caso:
- //   Caso 2: No lo sigues ,La BD devuelve null
-
-//Primera negación (!relacion): Evalúa null. Como null es un valor falso, al negarlo lo convierte en verda.
-
-//Segunda negación (!!relacion): Niega el true anterior,  convierte en false.
-
-//Resultado: El null se transformó en un false limpio
    
 console.log("RELACION:", relacion);
 

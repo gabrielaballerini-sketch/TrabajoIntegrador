@@ -4,11 +4,21 @@ block metadata
   title Fotaza - Inicio
 
 block formulario
-  .card(style='width:22rem;')
-          .card-body
-            h5.card-title.mb-4 Bienvenido
-            a.btn.btn-primary.w-100.mb-2(href='/auth/login') Iniciar sesión
-            a.btn.btn-outline-secondary.w-100.mb-2(href='/auth/anonimo') Ingresar como invitado
-            p.mt-3.text-center
-              | ¿No tenés cuenta?
-              a(href='/auth/signup')  Registrate
+  .card.border-0.shadow.rounded-4(style="width:22rem; border-top: 4px solid #667eea !important;")
+    .card-body(style="background:#fafafa; border-radius: 16px; padding: 2rem;")
+
+      .text-center.mb-4
+        span(style="font-size:2.5rem;") 
+        h4.mt-2.mb-0(style="color:#667eea; font-weight:700;") Bienvenido a Fotaza
+        p.text-muted(style="font-size:13px;") Compartí tus fotos con el mundo
+
+      a.btn.w-100.mb-3.rounded-3(
+        href='/auth/login'
+        style="background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; font-weight:600;"
+      ) Iniciar sesión
+
+      a.btn.btn-outline-secondary.w-100.mb-3.rounded-3(href='/auth/anonimo') Ingresar como invitado
+
+      p.text-center.text-muted(style="font-size:14px;")
+        | ¿No tenés cuenta?
+        a.ms-1(href='/auth/signup' style="color:#667eea; font-weight:600;") Registrate

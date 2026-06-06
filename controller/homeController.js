@@ -71,7 +71,15 @@ const usuarioLogueado = req.session.usuario;
       idsSeguidos = misSeguidos.map(s => s.seguido_id);
     }
 
+// Filtramos publicaciones privadas
+const publicacionesFiltradas = publicaciones.filter(pub => {
 
+  const esPublica = pub.imagenes[0]?.licencia !== 'copyright';
+  const esMia = usuarioLogueado && pub.autor && String(pub.autor.id) === String(usuarioLogueado.id);
+  const sigueAlAutor = pub.autor && idsSeguidos.includes(pub.autor.id);
+
+  return esPublica || esMia || sigueAlAutor;
+});
 
 
 
@@ -79,7 +87,7 @@ const usuarioLogueado = req.session.usuario;
   
 // pasamos de binario a texto formato base 64 
 
-for(const publicacion of publicaciones ){
+for(const publicacion of publicacionesFiltradas  ){
 
 
     for(const imagen of publicacion.imagenes || [] ){
@@ -148,7 +156,7 @@ console.log(
 
 
 res.render('home',{
-    publicaciones,
+     publicaciones: publicacionesFiltradas, 
     usuarioLogueado:req.session.usuario,
     query: req.query 
 

@@ -104,14 +104,14 @@ export const buscar = async (req, res) => {
           model: Etiqueta,
           as: 'etiquetas',
           where: whereEtiqueta,
-          required: false
+          required: Object.keys(whereEtiqueta).length > 0
         },
 
         {
           model: Usuario,
           as: 'autor',
           where: whereUsuario,
-          required: false
+          equired: Object.keys(whereUsuario).length > 0 
         }
 
       ]

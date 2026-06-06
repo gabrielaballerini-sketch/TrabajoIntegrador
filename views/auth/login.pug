@@ -5,17 +5,17 @@ block metadata
   title Iniciar sesión
 
 block formulario
-        .card.shadow(style='width: 22rem;')
-          .card-body
+        .card.border-0.shadow.rounded-4(style="width:22rem; border-top: 4px solid #667eea !important;")
+          .card-body(style="background:#fafafa; border-radius: 16px; padding: 2rem;")
 
-            h3.card-title.text-center.mb-4 Iniciar sesión
+            h3.card-title.text-center.mb-4(style="color:#667eea; font-weight:700;") Iniciar sesión
             +alert(alert)
 
             form(method='POST', action='/auth/login')
 
               .mb-3
                 label.form-label(for='email') Email
-                input.form-control(
+                input.form-control.rounded-3(
                   type='email',
                   id='email',
                   name='email',
@@ -25,21 +25,21 @@ block formulario
 
               .mb-3
                 label.form-label(for='password') Contraseña
-                input.form-control(
+                input.form-control.rounded-3(
                   type='password',
                   id='password',
                   name='password',
                   required
                 )
 
-              button.btn.btn-primary.w-100.mb-3(type='submit')
-                | Ingresar
+              button.btn.w-100.mb-3.rounded-3(
+                      type='submit'
+                      style="background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; font-weight:600;"
+                    ) Ingresar
 
-              a.btn.btn-outline-secondary.w-100.mb-3(href='/home')
-                | Continuar como invitado
+              a.btn.btn-outline-secondary.w-100.mb-3.rounded-3(href='/home') Continuar como invitado
 
-
-              p.text-center
+              p.text-center.text-muted(style="font-size:14px;")
                 | ¿No tenés cuenta?
-                a.ms-1(href='/auth/signup')
-                  | Registrate
+                a.ms-1(href='/auth/signup' style="color:#667eea; font-weight:600;") Registrate
+                 
