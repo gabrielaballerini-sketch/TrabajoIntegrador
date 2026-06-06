@@ -1,6 +1,6 @@
 import { Router } from "express"
 
-import { mostrarFormulario,crearPublicacion } from "../controller/publicacionController.js";
+import { mostrarFormulario,crearPublicacion,eliminarPublicacion  } from "../controller/publicacionController.js";
 
 import { auth } from "../middlewares/authMiddlewares.js";
 
@@ -20,7 +20,7 @@ router.get('/crear',auth, mostrarFormulario);
 
 router.post('/crear', auth, upload.array('imgs'), crearPublicacion);
 
-
+router.post('/:id/eliminar', auth, eliminarPublicacion);
 
 
 export default router;

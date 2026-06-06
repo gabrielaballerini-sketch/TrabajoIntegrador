@@ -6,10 +6,10 @@ block metadata
 
 block formulario
   
-        .card.shadow(style='width: 22rem;')
-          .card-body
+        .card.border-0.shadow.rounded-4(style="width:22rem; border-top: 4px solid #667eea !important;")
+          .card-body(style="background:#fafafa; border-radius: 16px; padding: 2rem;")
 
-            h3.card-title.text-center.mb-4 Registrarse
+            h3.card-title.text-center.mb-4(style="color:#667eea; font-weight:700;") Registrarse
             
             +alert(alert)
            
@@ -22,7 +22,7 @@ block formulario
 
               .mb-3
                 label.form-label(for='nombre') Nombre
-                input.form-control(
+                input.form-control.rounded-3(
                   type='text',
                   id='nombre',
                   name='nombre',
@@ -32,7 +32,7 @@ block formulario
 
               .mb-3
                 label.form-label(for='apellido') Apellido
-                input.form-control(
+                input.form-control.rounded-3(
                   type='text',
                   id='apellido',
                   name='apellido',
@@ -42,7 +42,7 @@ block formulario
 
               .mb-3
                 label.form-label(for='email') Email
-                input.form-control(
+                input.form-control.rounded-3(
                   type='email',
                   id='email',
                   name='email',
@@ -52,7 +52,7 @@ block formulario
 
               .mb-3 
                 label.form-label(for='telefono') telefono
-                input.form-control(
+                input.form-control.rounded-3(
                   type='text',
                   id='telefono',
                   name='telefono',
@@ -64,7 +64,7 @@ block formulario
                 label.form-label(for='nacimiento')
                   Fecha de nacimiento 
 
-                input.form-control(
+                input.form-control.rounded-3(
                 type='date',
                 id='nacimiento',
                 name='nacimiento',
@@ -76,7 +76,7 @@ block formulario
 
               .mb-3
                 label.form-label(for='password') Contraseña
-                input.form-control(
+                input.form-control.rounded-3(
                 type='password',
                 id='password',
                 name='password',
@@ -85,17 +85,18 @@ block formulario
               .mb-3
                 label.form-label(for='confPassword') Confirmar contraseña
               
-                input.form-control(
+                input.form-control.rounded-3(
                   type='password',
                   id='confPassword',
                   name='confPassword',
                   required
                 )
 
-              button.btn.btn-primary.w-100.mb-3(type='submit')
-                | Registrarse
+              button.btn.w-100.mb-3.rounded-3(
+                        type='submit'
+                        style="background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; font-weight:600;"
+                      ) Registrarse
 
-              p.text-center
-                | ¿Ya tenés cuenta?
-                a.ms-1(href='/auth/login')
-                  | Ingresá
+              p.text-center.text-muted(style="font-size:14px;")
+                       | ¿Ya tenés cuenta?
+                       a.ms-1(href='/auth/login' style="color:#667eea; font-weight:600;") Ingresá

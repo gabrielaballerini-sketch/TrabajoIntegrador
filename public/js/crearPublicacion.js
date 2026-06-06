@@ -13,7 +13,7 @@ const fileInput = document.getElementById('img');
 console.log(fileInput);
 const contenedorPreviews = document.getElementById('imgsPreview');
 
-///VER SI SACO ESTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+
 
 // Validamos que existan en la página actual antes de HACER  el evento
 if (fileInput && contenedorPreviews) {

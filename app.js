@@ -7,16 +7,23 @@ import session from 'express-session';
 
 
 import './models/sync.js'
-import publicaciones from './routes/routerPublicaciones.js'
+
 import {mostrarHome}from './controller/homeController.js'
-//provisorio
-import cookieParser from 'cookie-parser';
-//provi
+
+
 import { Usuario } from './models/Usuario.js';
+import { Seguidor } from './models/Seguidor.js';
 
-import perfil from './routes/routerPerfil.js'
 
+
+// Middlewares
+import { auth } from './middlewares/authMiddlewares.js';
+
+
+//rutas
+import publicaciones from './routes/routerPublicaciones.js'
 import home from './routes/routerHome.js'
+import perfil from './routes/routerPerfil.js'
 
 import comentarios from './routes/routerComentarios.js';
 
@@ -25,7 +32,6 @@ import buscador from './routes/routerBuscador.js'
 import usuarioRoutes from './routes/routerUsuarios.js';
 
 import routerValoracion from './routes/routerValoracion.js'
-import { auth } from './middlewares/authMiddlewares.js';
 
 
 
@@ -63,6 +69,27 @@ app.use((req,res,next)=>{
 
 
 })
+
+
+
+app.use(async (req, res, next) => {
+  if (req.session.usuario) {
+    try {
+      res.locals.cantidadSeguidores = await Seguidor.count({ where: { seguido_id: req.session.usuario.id } });
+      res.locals.cantidadSiguiendo = await Seguidor.count({ where: { seguidor_id: req.session.usuario.id } });
+    } catch {
+      res.locals.cantidadSeguidores = 0;
+      res.locals.cantidadSiguiendo = 0;
+    }
+  } else {
+    res.locals.cantidadSeguidores = 0;
+    res.locals.cantidadSiguiendo = 0;
+  }
+  next();
+});
+
+
+
 
 
 
