@@ -11,7 +11,7 @@ Comentario.init(
       primaryKey: true,
     },
     contenido: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
    
