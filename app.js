@@ -135,7 +135,7 @@ app.use('/valoraciones',auth,  routerValoracion);
 
 
 //sincronizamos la bd con sync
-sequelize.sync({ alter: true })
+sequelize.sync()
   .then(()=>{
     // SERVIDOR
     app.listen(PORT, (err) => {
