@@ -15,7 +15,7 @@ Publicacion.init(
       allowNull: false,
     },
     descripcion: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
        allowNull: true,
     },
     comentarios_abiertos: {

@@ -6,7 +6,7 @@ async function inicializarDB() {
     try {
         console.log("Sincronizando base de datos...");
        
-        await sequelize.sync({ force: true }); 
+        await sequelize.sync({force: false}); 
 
         console.log("Cargando usuarios de prueba...");
 

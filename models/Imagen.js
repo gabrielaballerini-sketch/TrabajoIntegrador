@@ -12,14 +12,6 @@ Imagen.init(
     },
 
 
-    //PONGO.TEXT X AHORA PROVISORIO..
-    //LUEGO VEO SI VUELVO A BLOB
-    /*data: {
-      type: DataTypes.BLOB('long'),
-       allowNull: false,
-    },
-    */
-
      data: {
       type: DataTypes.BLOB('long'),
        allowNull: false,
