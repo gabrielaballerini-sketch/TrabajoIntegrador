@@ -1,0 +1,31 @@
+
+{    
+  "version": 2,
+"git":{
+"deploymentEnabled":{
+"master":false
+}
+},
+
+
+
+  "builds": [
+
+
+    {
+      "src": "app.js",
+      "use": "@vercel/node",
+      "config": {
+
+        "includeFiles": ["views/**", "public/**"]
+      }
+    }
+  ],
+  "routes": [
+    {
+
+      "src": "/(.*)",
+      "dest": "app.js"
+    }
+  ]
+}

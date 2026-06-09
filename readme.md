@@ -38,3 +38,10 @@ La app queda disponible en http://localhost:3000
 - PostgreSQL + Sequelize
 - Pug (motor de plantillas)
 - Bootstrap
+
+## Problemas encontrados durante el desarrollo
+
+Fue necesario realizar varios ajustes en las relaciones de Sequelize para modelar correctamente usuarios, publicaciones, etiquetas y seguidores.
+La implementación de la carga de imágenes evolucionó durante el desarrollo hasta adoptar una solución basada en Multer y almacenamiento binario.
+La vista principal fue refactorizada y modularizada mediante mixins de Pug para mejorar su mantenimiento.
+Durante el despliegue en Render se resolvieron problemas relacionados con variables de entorno, configuración SSL para Neon y sincronización de Sequelize en producción.
