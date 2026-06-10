@@ -166,6 +166,17 @@ export const mostrarPerfilPublico = async (req, res) => {
       where: { seguido_id: idVisitadoNum } 
     });
 
+ const publicacionesFiltradas = publicaciones.filter(pub => {
+      const esPublica = pub.imagenes[0]?.licencia !== 'copyright';
+      const sigueAlAutor = !!relacion;
+      return esPublica || sigueAlAutor;
+    });
+
+
+
+
+
+
     console.log("=== CONTROL DE BOTÓN ===");
     console.log("¿Encontró relación en BD?:", relacion);
     console.log("¿Qué le llega a siguiendo?:", !!relacion);
@@ -183,7 +194,7 @@ console.log("RELACION:", relacion);
 
     res.render('perfil', {
       usuario,
-      publicaciones,
+       publicaciones: publicacionesFiltradas,
       usuarioLogueado: req.session.usuario,
       siguiendo: !!relacion, 
       cantidadSiguiendo,
