@@ -1,0 +1,55 @@
+extends layoutPrivado.pug
+
+block contenido
+  .container.mt-4
+
+    h1.mb-4.text-center(style="color:#667eea;") 🛡 Panel del Validador
+
+    if !publicaciones || publicaciones.length === 0
+      .alert.alert-success.text-center No hay publicaciones en revisión.
+
+    else
+      each pub in publicaciones
+        .card.border-0.shadow.rounded-4.mb-5
+          .card-body.p-4
+
+            //- ENCABEZADO
+            .d-flex.justify-content-between.align-items-center.mb-3
+              div
+                h5.mb-0= pub.titulo
+                small.text-muted Autor: #{pub.autor.nombre} #{pub.autor.apellido} — #{pub.autor.email}
+              span.badge.bg-warning.text-dark En revisión
+
+            //- IMÁGENES
+            if pub.imagenes && pub.imagenes.length > 0
+              .d-flex.gap-3.flex-wrap.mb-3
+                each img in pub.imagenes
+                  div
+                    img.rounded(
+                      src=img.src
+                      style="width:150px; height:150px; object-fit:cover;"
+                    )
+
+                    //- DENUNCIAS DE ESA IMAGEN
+                    if img.denuncias && img.denuncias.length > 0
+                      p.mt-2.mb-1.fw-bold.text-danger #{img.denuncias.length} denuncia(s):
+                      each denuncia in img.denuncias
+                        .border.rounded.p-2.mb-1.bg-light(style="font-size:0.85rem;")
+                          strong= denuncia.denunciante.nombre + ': '
+                          span= denuncia.motivoDenuncia ? denuncia.motivoDenuncia.nombre : 'sin motivo'
+                          if denuncia.descripcion
+                            p.mb-0.text-muted= denuncia.descripcion
+
+            //- BOTONES
+            .d-flex.gap-3.mt-3
+              form(action=`/validador/${pub.id}/dar-de-baja` method="POST")
+                button.btn.btn-danger(
+                  type="submit"
+                  onclick="return confirm('¿Dar de baja esta publicación?')"
+                ) 🗑 Dar de baja
+
+              form(action=`/validador/${pub.id}/desestimar` method="POST")
+                button.btn.btn-success(
+                  type="submit"
+                  onclick="return confirm('¿Desestimar todas las denuncias?')"
+                ) ✅ Desestimar denuncias

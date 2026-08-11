@@ -10,6 +10,8 @@ import { Comentario } from "../models/Comentario.js";
 
 import { Valoracion } from "../models/Valoracion.js";
 
+import { MotivoDenuncia } from '../models/MotivoDenuncia.js';
+
 export const seguirUsuario = async (req,res)=>{
 
 try{
@@ -199,6 +201,7 @@ export const publicacionesDeSeguidos = async (req, res) => {
     res.render('publicacionesDeSeguidos', {
       publicaciones,
       usuarioLogueado,
+      motivos,
       cantidadSeguidores: req.cantidadSeguidores,
       cantidadSiguiendo: req.cantidadSiguiendo
     });

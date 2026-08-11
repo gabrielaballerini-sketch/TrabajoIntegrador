@@ -6,7 +6,7 @@ block contenido
     h1.mb-4.text-center(style="color:#667eea; letter-spacing:1px;") Novedades
     
 
-  .row
+    .row
       if !publicaciones || publicaciones.length === 0
         .col-12.text-center.py-5
           p.text-muted.fs-5 No hay publicaciones para mostrar.
@@ -20,3 +20,4 @@ block contenido
               +tarjetaPublicacion(publicacion, usuarioLogueado)
 
   script(src="/js/home.js")
+  script(src="/js/denuncias.js")

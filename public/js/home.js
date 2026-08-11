@@ -1,5 +1,9 @@
 
 
+
+//querySelectorAll('.miniatura'): Busca todas las fotos pequeñas de la página.
+
+
 document.querySelectorAll('.miniatura').forEach((mini)=>{
 
   mini.addEventListener('click', ()=>{
@@ -21,6 +25,10 @@ document.querySelectorAll('.miniatura').forEach((mini)=>{
   */
 
 
+//mini.closest('.card'):  Sube por el árbol HTML hasta encontrar el contenedor <div class="card"> de esa publicación en particular. 
+//Así se asegura de modificar solo la tarjeta correcta y no tocar las de otros posteos.
+
+
     const card = mini.closest('.card');
 
     /*
@@ -32,7 +40,7 @@ console.log("miVoto:", mini.dataset.mivoto);
 
 
 
-// Cambiamos la imagen principal de la tarjeta actual
+// Cambia la foto principal: Copia la URL de la miniatura cliqueada (mini.src) y se la pone a la imagen grande (principal.src).
     const principal = card.querySelector('.imagenPrincipal');
     if (principal) {
       principal.src = mini.src;
@@ -65,6 +73,7 @@ const form = card.querySelector('.formComentario');
 
 
 if (valoracionContainer) {
+  // CASO A: El usuario ya votó esta imagen en particular
 
   if (mini.dataset.mivoto) {
 
@@ -82,7 +91,7 @@ if (valoracionContainer) {
       </span>
       <small class="ms-2">¡Ya votaste!</small>
     `;
-
+// CASO B: El usuario no votó y TIENE permiso (no es autor, está logueado)
   } else if (mini.dataset.puedevotar === 'true') {
 
     valoracionContainer.innerHTML = `
@@ -117,7 +126,7 @@ if (valoracionContainer) {
 
       </form>
     `;
-
+// CASO C: No puede votar (es su propia publicación o es invitado)
   } else {
 
     valoracionContainer.innerHTML =
@@ -181,54 +190,7 @@ if (imagenActiva) {
 
 
 
-//Lo que hace: al cargar /home?imagenActiva=id que sea,
-//  busca la miniatura con data-id="id que seaaaa",
-//  le hace click automático 
-// ahi  actualiza imagen, comentarios y form  y hace scroll hasta ella.
 
-
-  
-//  window.onload espera a que cargue la pagina..cuando esta cargada hace
-window.onload = function() {
-  const fileInput = document.getElementById('img');
-  const contenedorPreviews = document.getElementById('imgsPreview');
-
-  // Solo si encontrás el input en esta pantalla, activá el código
-  if (fileInput && contenedorPreviews) {
-  
-
-    fileInput.addEventListener('change', (e) => {
-      contenedorPreviews.innerHTML = ''; // Limpia las miniaturas anteriores
-      
-      const archivos = e.target.files;
-      if (!archivos) return;
-
-      Array.from(archivos).forEach(file => {
-        if (file.type.startsWith('image/')) {
-
-          const urlTemporal = URL.createObjectURL(file);
-
-          const col = document.createElement('div');
-          col.classList.add('col-4'); 
-
-          const img = document.createElement('img');
-          img.src = urlTemporal;
-          img.classList.add('img-fluid', 'rounded'); 
-
-          img.style.height = '150px';
-
-          img.style.objectFit = 'cover';
-
-          // Limpieza de memoria para que la app sea liviana
-          img.onload = () => { URL.revokeObjectURL(urlTemporal); };
-
-          col.appendChild(img);
-          contenedorPreviews.appendChild(col);
-        }
-      });
-    });
-  }
-};
 
 
 

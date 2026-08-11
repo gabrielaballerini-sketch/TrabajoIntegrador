@@ -1,0 +1,39 @@
+extends ../layoutPrivado.pug
+
+block contenido
+
+  .container.mt-5(style="max-width:700px;")
+
+    .card.shadow-sm.border-0
+
+      .card-body.p-4
+
+        h1.mb-4.text-center(style="color:#667eea; letter-spacing:1px;") Editar publicación
+
+        form(action=`/publicaciones/${publicacion.id}/editar` method="post")
+
+          .mb-3
+            label.form-label Título
+            input.form-control(
+              type="text"
+              name="titulo"
+              value=publicacion.titulo
+            )
+
+          .mb-4
+            label.form-label Descripción
+            textarea.form-control(
+              name="descripcion"
+              rows="4"
+            )= publicacion.descripcion
+
+          .mb-3
+            label.form-label Etiquetas
+            input.form-control(
+              type="text"
+              name="etiquetas"
+              value=publicacion.etiquetas ? publicacion.etiquetas.map(e => e.nombre).join(' ') : ''
+              placeholder="playa verano mar"
+            )
+
+          button.btn.btn-dark.w-100(type="submit") Guardar cambios

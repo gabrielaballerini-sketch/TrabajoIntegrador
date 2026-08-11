@@ -33,6 +33,11 @@ import usuarioRoutes from './routes/routerUsuarios.js';
 
 import routerValoracion from './routes/routerValoracion.js'
 
+import routerDenuncias from './routes/routerDenuncias.js';
+
+import routerValidador from './routes/routerValidador.js';
+
+
 
 
 const PORT = process.env.PORT;
@@ -108,7 +113,7 @@ res.render('index');
 app.use('/auth',authRouter)
 
 
-//me voy a mi router publicacion
+//ROUTERS
 app.use('/publicaciones',publicaciones)
 
 
@@ -126,7 +131,9 @@ app.use('/usuarios', usuarioRoutes);
 
 app.use('/valoraciones',auth,  routerValoracion);
 
+app.use('/denuncias', auth, routerDenuncias);
 
+app.use('/validador', routerValidador);
 
 
 

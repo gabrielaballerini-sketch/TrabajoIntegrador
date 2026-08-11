@@ -38,6 +38,8 @@ block content
           a.nav-link(href='/usuarios/siguiendo/publicaciones') Novedades
           a.nav-link(href='#') Favoritos
           a.nav-link(href='#') Notificaciones
+          if usuario && usuario.rol_id === 1
+            a.nav-link(href='/validador') 🛡 Validador
 
         form.d-flex.mx-auto.gap-2(
           action='/buscador'

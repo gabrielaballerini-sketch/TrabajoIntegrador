@@ -9,6 +9,10 @@ import { Seguidor } from "../models/Seguidor.js";
 
 import { Valoracion } from "../models/Valoracion.js"
 
+import { MotivoDenuncia } from '../models/MotivoDenuncia.js'
+
+import { fn, col, Op } from 'sequelize'
+
 
 //USO PARA CUENTAS DERECHO EN LA BD
 /*fn (Function): Se usa para llamar a funciones de SQL nativas como AVG (promedio), COUNT (contar), SUM (sumar), MIN, MAX, etc.
@@ -16,7 +20,7 @@ Ejemplo: fn('AVG', col('puntaje')) se traduce a SQL como AVG(puntaje).
 col (Column): Se usa para decirle a Sequelize a qué columna específica de la base de datos debe aplicarle esa función.
 */
 
-import { fn, col } from 'sequelize'
+
 
 
 //req.session.usuario será undefined para invitados
@@ -30,6 +34,11 @@ const usuarioLogueado = req.session.usuario;
 
 
     const publicaciones1 = await Publicacion.findAll({
+    where: {
+     estado: { [Op.ne]: 'dada_de_baja' } // ← excluye las dadas de baja
+     },
+
+
       include: [
         {
           model: Imagen,
@@ -50,13 +59,14 @@ const usuarioLogueado = req.session.usuario;
         },
         { model: Usuario, as: 'autor' }
       ],
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'DESC']] // publicaciones mas recientes primero
     });
 
 
 
 
-// Convertimos las instancias de Sequelize a objetos planos de JS
+// Convierte los objetos complejos de Sequelize en objetos de JS puros (planos). 
+// Esto es fundamental para poder agregarles o modificarles propiedades después sin que Sequelize se queje.
     const publicaciones = publicaciones1.map(p => p.get({ plain: true }));
 
 // Buscamos a quiénes sigue el usuario que está logueado actualmente
@@ -64,14 +74,15 @@ const usuarioLogueado = req.session.usuario;
     
     if (usuarioLogueado) {
       const misSeguidos = await Seguidor.findAll({
-
+ // busco en la tabla del  seguidor que tiene el ID del logueado
        where: { seguidor_id: usuarioLogueado.id }
       });
       // Guardamos solo los IDs numéricos en un array simple: [2, 5, 8]
       idsSeguidos = misSeguidos.map(s => s.seguido_id);
     }
 
-// Filtramos publicaciones privadas
+// Filtramos publicaciones privadas, si el usuariio cumple alguna de estas puede ver las publicaciones
+
 const publicacionesFiltradas = publicaciones.filter(pub => {
 
   const esPublica = pub.imagenes[0]?.licencia !== 'copyright';
@@ -93,9 +104,12 @@ for(const publicacion of publicacionesFiltradas  ){
     for(const imagen of publicacion.imagenes || [] ){
 
 // Dentro del for(const publicacion of publicaciones)
-console.log(`Publicación ID: ${publicacion.id} | Autor ID: ${publicacion.autor?.id} | Usuario Logueado ID: ${usuarioLogueado?.id}`);
+//console.log(`Publicación ID: ${publicacion.id} | Autor ID: ${publicacion.autor?.id} | Usuario Logueado ID: ${usuarioLogueado?.id}`);
 
         if (!imagen?.data) continue;
+
+//La imagen guardada como bytes en la base de datos se transforma en un texto largo  para que el HTML pueda mostrarla
+//  directamente en un <img src="">
 
     const imagenBase64=imagen.data.toString('base64');
 
@@ -105,6 +119,7 @@ console.log(`Publicación ID: ${publicacion.id} | Autor ID: ${publicacion.autor?
 
 
 // Cálculos de valoraciones
+//reduce, saca un promedio
 const valoraciones = imagen.valoraciones || [];
 imagen.cantidadValoraciones = valoraciones.length;
 imagen.promedio = valoraciones.length
@@ -141,7 +156,7 @@ imagen.puedeVotar = usuarioLogueado
       }
     }
 
-
+/*
 
 console.log('PRIMERA PUBLICACION');
 console.log(
@@ -151,6 +166,10 @@ console.log(
     miVoto: img.miVoto
   }))
 );
+*/
+
+const motivos = await MotivoDenuncia.findAll({ raw: true });
+
 
 
 
@@ -158,7 +177,9 @@ console.log(
 res.render('home',{
      publicaciones: publicacionesFiltradas, 
     usuarioLogueado:req.session.usuario,
-    query: req.query 
+    query: req.query,
+    motivos,
+     origen: '/home'
 
 });
    

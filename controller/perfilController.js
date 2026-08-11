@@ -3,6 +3,10 @@ import { Imagen } from "../models/Imagen.js";
 import { Comentario } from "../models/Comentario.js";
 import { Usuario } from "../models/Usuario.js";
 import { Seguidor } from "../models/Seguidor.js";
+import { MotivoDenuncia } from '../models/MotivoDenuncia.js';
+import { Op } from 'sequelize';
+
+// USAMOS OP OBJETO DE SEQUELIZE, Op.Ne ::: SIGNIFICA DISTINTO DE .. 
 
 export const mostrarPerfil = async (req, res) => {
   try {
@@ -19,6 +23,12 @@ export const mostrarPerfil = async (req, res) => {
   //traigo publicacion , incluye imagen y comentario(aca tb pone usuario)
 
     const publicaciones1 = await Publicacion.findAll({
+where: { 
+    usuario_id: usuario.id,
+    estado: { [Op.ne]: 'dada_de_baja' }
+  },
+
+
       where: { usuario_id: usuario.id },
       include: [
         {
@@ -62,6 +72,9 @@ export const mostrarPerfil = async (req, res) => {
       where: { seguido_id: usuario.id }
     });
 
+const motivos = await MotivoDenuncia.findAll({ raw: true });
+
+
     // Enviamos los contadores a la vista
     res.render('perfil', {
       usuario,
@@ -69,7 +82,9 @@ export const mostrarPerfil = async (req, res) => {
       usuarioLogueado: req.session.usuario,
       siguiendo: false, // En mi propio perfil no me sigo a mí mismo
       cantidadSiguiendo,   
-      cantidadSeguidores   
+      cantidadSeguidores,
+       motivos,
+       origen: '/perfil'  
     });
 
   } catch (error) {
@@ -113,6 +128,11 @@ export const mostrarPerfilPublico = async (req, res) => {
 
     // publicaciones de ese usuario
     const publicacionesBD = await Publicacion.findAll({
+      
+    where: { 
+    usuario_id: usuario.id,
+    estado: { [Op.ne]: 'dada_de_baja' }
+  },
       where: { usuario_id: idVisitadoNum }, //  Usamos el número seguro
       include: [
         {
@@ -188,7 +208,7 @@ console.log("USUARIO LOGUEADO:", req.session.usuario.id);
 console.log("SIGUIENDO:", !!relacion);
 
 
-
+const motivos = await MotivoDenuncia.findAll({ raw: true });
    
 console.log("RELACION:", relacion);
 
@@ -198,7 +218,9 @@ console.log("RELACION:", relacion);
       usuarioLogueado: req.session.usuario,
       siguiendo: !!relacion, 
       cantidadSiguiendo,
-      cantidadSeguidores
+      cantidadSeguidores,
+      motivos,
+      origen: `/usuarios/${idVisitadoNum}`
     });
 
   } catch (error) {

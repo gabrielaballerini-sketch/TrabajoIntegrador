@@ -12,7 +12,7 @@ Notificacion.init(
     },
 //enum, me interesaa? 
 tipo: {
-      type: DataTypes.ENUM('cometario','valoracion','seguidor','denuncia'),
+      type: DataTypes.ENUM('comentario','valoracion','seguidor','denuncia'),
       allowNull: false,
     },
     leida: {

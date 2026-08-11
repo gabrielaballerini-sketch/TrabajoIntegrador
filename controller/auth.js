@@ -153,7 +153,9 @@ export async function login(req, res) {
          id: usuario.id,
          nombre: usuario.nombre,
          apellido: usuario.apellido,
-         email: usuario.email
+         email: usuario.email,
+         rol_id: usuario.rol_id,
+         activo: usuario.activo
 
           };
 

@@ -4,13 +4,13 @@
 
 //aca es donde se guardan las fotoss
 
-console.log('JS cargado');
-console.log("acaaaaaaaaaa")
+//console.log('JS cargado');
+//console.log("acaaaaaaaaaa")
 
 
 const fileInput = document.getElementById('img');
 
-console.log(fileInput);
+//console.log(fileInput);
 const contenedorPreviews = document.getElementById('imgsPreview');
 
 
@@ -28,38 +28,37 @@ fileInput.addEventListener('change', (e) => {
 
   contenedorPreviews.innerHTML = '';
 
+  // e.target.files: Contiene la lista de archivos reales que el usuario acaba de 
+  // seleccionar de su disco rígido
 //recorremos cada archivo 
 
   for(const file of e.target.files){
 
+    // Saltamos archivos que no sean imágenes
+    if (!file.type.startsWith('image/')) continue;
 
-    //crea una url temporal
+    //crea una url temporal en la memoria RAM del navegador .. Permite que el navegador pueda mostrar la foto en pantalla de inmediato sin necesidad de haberla 
+    // subido todavía al servidor backend.
     const url = URL.createObjectURL(file);
 
+ const col = document.createElement('div');
+ col.classList.add('col-4'); // 3 imágenes por fila
 
+const img = document.createElement('img');
+      img.src = url;
+      img.classList.add('img-fluid', 'rounded');
+      img.style.height = '150px';
+      img.style.objectFit = 'cover';
 
-// creamos la imagen previa
-    createImgPreview(url);
+      // Libera la memoria RAM una vez que la imagen ya cargó
+      img.onload = () => URL.revokeObjectURL(url);
+
+      col.appendChild(img);
+      contenedorPreviews.appendChild(col);
 
   }
 
 });
 }
 
-//para ver la vista previa ..todo lo qhay q hacer
-function createImgPreview(src) {
 
-
-  // Creooo una columna 
-  const col = document.createElement('div');
-  col.classList.add('col-4'); // 3 imágenes por fila
-
-  const img = document.createElement('img');
-  img.src = src;
-  img.classList.add('img-fluid', 'rounded'); // bbootstrap para que sea responsive
-  img.style.height = '150px';
-  img.style.objectFit = 'cover';
-
-  col.appendChild(img);
-  contenedorPreviews.appendChild(col);
-}

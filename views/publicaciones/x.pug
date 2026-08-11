@@ -4,7 +4,6 @@ mixin tarjetaPublicacion(publicacion, usuarioLogueado)
 
       //- ENCABEZADO: licencia + autor + fecha
       .d-flex.align-items-center.justify-content-between.mb-3
-
         .d-flex.align-items-center.gap-2
 
           if publicacion.imagenes && publicacion.imagenes[0]
@@ -40,18 +39,9 @@ mixin tarjetaPublicacion(publicacion, usuarioLogueado)
       p.card-text= publicacion.descripcion
       hr.text-muted.opacity-25
 
-       //- ACCIONES (EDITAR / ELIMINAR)
-
-      if publicacion.modificable
-         .d-flex.gap-2
-            a.btn.btn-sm.btn-outline-primary(href=`/publicaciones/${publicacion.id}/editar`) ✏️ Editar
-            form(action=`/publicaciones/${publicacion.id}/eliminar` method="POST")
-             button.btn.btn-sm.btn-outline-danger(
-                type="submit"
-                onclick="return confirm('¿Seguro que querés eliminar esta publicación?')") 🗑 Eliminar
-      else
-        p.text-muted.small 🔒 Esta publicación tiene denuncias y no puede ser modificada.
-        
+      if usuarioLogueado && publicacion.autor && String(publicacion.autor.id) === String(usuarioLogueado.id)
+        form(action=`/publicaciones/${publicacion.id}/eliminar` method="POST")
+          button.btn.btn-sm.btn-outline-danger(type="submit") 🗑 Eliminar
 
       //- IMAGEN PRINCIPAL + VALORACIÓN
       if publicacion.imagenes && publicacion.imagenes.length > 0
@@ -116,6 +106,8 @@ mixin tarjetaPublicacion(publicacion, usuarioLogueado)
                 data-comentarios=JSON.stringify(imagen.comentarios || [])
                 style="width:80px; height:80px; object-fit:cover; cursor:pointer;"
               )
+
+        //- DENUNCIAR IMAGEN
         if usuarioLogueado && publicacion.autor && String(publicacion.autor.id) !== String(usuarioLogueado.id)
           .mt-2
             button.btn.btn-sm.btn-outline-danger(
@@ -125,23 +117,22 @@ mixin tarjetaPublicacion(publicacion, usuarioLogueado)
             ) 🚩 Denunciar imagen
 
             .collapse.mt-2(id=`denunciaImagen-${publicacion.imagenes[0].id}`)
-              form.formDenuncia(action="/denuncias/crear" method="POST")
+              form(action="/denuncias/crear" method="POST")
                 input(type="hidden" name="tipo" value="imagen")
                 input(type="hidden" name="elemento_id" value=publicacion.imagenes[0].id)
-            
+
                 select.form-select.mb-2(name="motivo_id" required)
                   option(value="" disabled selected) Elegí un motivo
                   each motivo in motivos
                     option(value=motivo.id)= motivo.nombre
-            
-                textarea.form-control.mb-2(name="descripcion" rows="2" placeholder="Descripción opcional")
+
+                textarea.form-control.mb-2(
+                  name="descripcion"
+                  rows="2"
+                  placeholder="Descripción opcional"
+                )
+
                 button.btn.btn-danger.btn-sm(type="submit") Enviar denuncia
-            
-              .mensajeDenuncia
-
-            
-
-
 
       //- COMENTARIOS
       hr
@@ -150,9 +141,10 @@ mixin tarjetaPublicacion(publicacion, usuarioLogueado)
       .comentariosContainer
         if publicacion.imagenes && publicacion.imagenes[0] && publicacion.imagenes[0].comentarios && publicacion.imagenes[0].comentarios.length > 0
           each comentario in publicacion.imagenes[0].comentarios
-            .mb-2
-              strong= comentario.usuario.nombre + ': '
-              span= comentario.contenido
+            .mb-2.d-flex.align-items-center.justify-content-between
+              div
+                strong= comentario.usuario.nombre + ': '
+                span= comentario.contenido
 
               if usuarioLogueado && String(comentario.usuario.id) !== String(usuarioLogueado.id)
                 div
@@ -163,26 +155,22 @@ mixin tarjetaPublicacion(publicacion, usuarioLogueado)
                   ) 🚩
 
                   .collapse(id=`denunciaComentario-${comentario.id}`)
-                    form.formDenuncia(action="/denuncias/crear" method="POST")
+                    form(action="/denuncias/crear" method="POST")
                       input(type="hidden" name="tipo" value="comentario")
                       input(type="hidden" name="elemento_id" value=comentario.id)
-                  
+
                       select.form-select.mb-2(name="motivo_id" required)
                         option(value="" disabled selected) Motivo
                         each motivo in motivos
                           option(value=motivo.id)= motivo.nombre
-                  
+
                       textarea.form-control.mb-2(
                         name="descripcion"
                         rows="2"
                         placeholder="Descripción opcional"
                       )
-                  
+
                       button.btn.btn-danger.btn-sm(type="submit") Enviar
-                  
-                    .mensajeDenuncia
-
-
         else
           p.text-muted No hay comentarios todavía
 

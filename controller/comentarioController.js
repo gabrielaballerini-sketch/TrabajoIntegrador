@@ -8,7 +8,7 @@ export const crearComentario = async(req,res)=>{
    try{
 
 
-   
+   /*
 
     console.log('ENTRE');
 
@@ -18,7 +18,7 @@ export const crearComentario = async(req,res)=>{
 
     console.log('SESSION:', req.session.usuario);
 
-  
+  */
 
     const {contenido} = req.body;
 
@@ -26,11 +26,11 @@ export const crearComentario = async(req,res)=>{
 
     const usuario = req.session.usuario;
 
-    console.log('contenido', contenido);
+    //console.log('contenido', contenido);
 
-    console.log('imagenId', imagenId);
+    //console.log('imagenId', imagenId);
 
-    console.log('usuario id', usuario?.id);
+    //console.log('usuario id', usuario?.id);
 
     await Comentario.create({
 
@@ -42,15 +42,15 @@ export const crearComentario = async(req,res)=>{
 
     });
 
-    console.log('COMENTARIO CREADOOOOOOO');
+    //console.log('COMENTARIO CREADOOOOOOO');
 
     res.redirect(`/home?imagenActiva=${imagenId}`);
  
 
   }catch(error){
 
-    console.log('ERROR COMPLETOOOOOO');
-    console.log(error);
+ //   console.log('ERROR COMPLETOOOOOO');
+   // console.log(error);
 
 
        res.redirect('/home');

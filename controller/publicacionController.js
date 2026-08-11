@@ -4,7 +4,7 @@ import { Etiqueta } from '../models/Etiqueta.js';
 
 //muestro el formulario cuando ingresan 
 export const mostrarFormulario = (req, res) => {
-  res.render('publicaciones/vistaCrearPublicaciones');
+  res.render('publicaciones/crearPublicaciones');
 };
 
 //crear 
@@ -12,8 +12,8 @@ export const mostrarFormulario = (req, res) => {
 export const crearPublicacion = async (req, res) => {
   try {
    
-    console.log('BODY:', req.body);
-    console.log('FILES:', req.files);
+    //console.log('BODY:', req.body);
+    //console.log('FILES:', req.files);
  
 
     const { titulo, descripcion, etiquetas } = req.body;
@@ -45,16 +45,7 @@ export const crearPublicacion = async (req, res) => {
       await publicacion.addEtiqueta(etiquetaDB);
     }
 
-    // imagenes con multer
- 
 
-    //req.files hay un middleware (multer) que procesa la subida de archivos
-    //extrension: extraigo la extensioN
-    //GUARDO LA IMAG EN bd como un archivo binario (file.buffer) 
-
-
-
-//  (req.files || []) para evitar que rompa si no se suben fotos
     const archivos = req.files || [];
     
     if (archivos.length > 0) {
@@ -98,5 +89,78 @@ export const eliminarPublicacion = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     res.status(500).send('Error al eliminar publicación');
+  }
+};
+
+
+export const mostrarFormularioEditar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const usuario = req.session.usuario;
+
+    const publicacion = await Publicacion.findOne({
+      where: { id, usuario_id: usuario.id },
+      include: [{ model: Etiqueta, as: 'etiquetas' }]
+    });
+
+    if (!publicacion) {
+      return res.status(404).send('Publicación no encontrada');
+    }
+
+    if (!publicacion.modificable) {
+      return res.redirect('/home');
+    }
+
+    res.render('publicaciones/editarPublicacion', {
+      publicacion: publicacion.get({ plain: true }),
+      usuarioLogueado: usuario
+    });
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Error al mostrar formulario de edición');
+  }
+};
+
+export const editarPublicacion = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const usuario = req.session.usuario;
+    const { titulo, descripcion, etiquetas } = req.body;
+
+    const publicacion = await Publicacion.findOne({
+      where: { id, usuario_id: usuario.id }
+    });
+
+    if (!publicacion) {
+      return res.status(404).send('Publicación no encontrada');
+    }
+
+    if (!publicacion.modificable) {
+      return res.redirect('/home');
+    }
+
+    // actualizamos titulo y descripcion
+    await publicacion.update({ titulo, descripcion });
+
+    // actualizamos etiquetas — borramos las anteriores y ponemos las nuevas
+    await publicacion.setEtiquetas([]);
+
+    const etiquetasArray = etiquetas
+      ? etiquetas.split(' ').map(e => e.trim().toLowerCase()).filter(Boolean)
+      : [];
+
+    for (const nombreEtiqueta of etiquetasArray) {
+      const [etiquetaDB] = await Etiqueta.findOrCreate({
+        where: { nombre: nombreEtiqueta }
+      });
+      await publicacion.addEtiqueta(etiquetaDB);
+    }
+
+    res.redirect('/home');
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Error al editar publicación');
   }
 };

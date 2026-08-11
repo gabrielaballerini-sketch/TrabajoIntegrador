@@ -6,6 +6,8 @@ import { Usuario } from '../models/Usuario.js';
 import { Comentario } from '../models/Comentario.js';
 import { Seguidor } from '../models/Seguidor.js';
 import { Valoracion } from '../models/Valoracion.js';
+import { MotivoDenuncia } from '../models/MotivoDenuncia.js';
+
 
 export const buscar = async (req, res) => {
   try {
@@ -108,11 +110,13 @@ export const buscar = async (req, res) => {
         publicacion.siguiendoAutor = false;
       }
     }
+    const motivos = await MotivoDenuncia.findAll({ raw: true })
 
     res.render('buscador', {
       publicaciones: publicacionesFiltradas,
       filtros: { texto, usuario, etiqueta },
-      usuarioLogueado
+      usuarioLogueado,
+      motivos
     });
 
   } catch (error) {
