@@ -45,10 +45,11 @@ Usuario.init(
     nacimiento: {
       type: DataTypes.DATEONLY,
     },
-    rol: {
-      type: DataTypes.ENUM('validador', 'usuario','administrador'),
-     defaultValue:'usuario'
-    },
+    rol_id: {
+    type: DataTypes.INTEGER,
+     allowNull: false,
+    defaultValue: 2, // x defecto dejo 2= usuario comun
+},
    
     activo:{
     type:DataTypes.BOOLEAN,

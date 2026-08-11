@@ -11,9 +11,9 @@ import {Denuncia} from'./Denuncia.js'
 import {Notificacion} from'./Notificacion.js'
 import{Coleccion}from './Coleccion.js'
 import { ColeccionPublicacion } from './ColeccionPublicacion.js'
-
-
 import { PublicacionEtiqueta } from './PublicacionEtiqueta.js'
+import { Rol } from './Rol.js';
+import { MotivoDenuncia } from './MotivoDenuncia.js';
 
 
 //usuario-publicacion , agregue 2 as
@@ -30,6 +30,10 @@ Comentario.belongsTo(Usuario,{foreignKey:'usuario_id', as: 'usuario'})
 
 Imagen.hasMany(Comentario,{foreignKey:'imagen_id',as: 'comentarios',onDelete:'CASCADE'});
 Comentario.belongsTo(Imagen,{foreignKey:'imagen_id'})
+
+Imagen.hasMany(Denuncia, { foreignKey: 'elemento_id', as: 'denuncias' });
+Denuncia.belongsTo(MotivoDenuncia, { foreignKey: 'motivo_id', as: 'motivoDenuncia' }); 
+Denuncia.belongsTo(Usuario, { foreignKey: 'usuario_id', as: 'denunciante' }); 
 
 
 Imagen.hasMany(Valoracion,{foreignKey:'imagen_id', as: 'valoraciones',onDelete:'CASCADE'});
@@ -191,4 +195,8 @@ as:'usuario'
 
 })
 
+Rol.hasMany(Usuario, { foreignKey: 'rol_id', as: 'usuarios' });
+Usuario.belongsTo(Rol, { foreignKey: 'rol_id', as: 'rol' });
 
+MotivoDenuncia.hasMany(Denuncia, { foreignKey: 'motivo_id', as: 'denuncias' });
+Denuncia.belongsTo(MotivoDenuncia, { foreignKey: 'motivo_id', as: 'motivo' });

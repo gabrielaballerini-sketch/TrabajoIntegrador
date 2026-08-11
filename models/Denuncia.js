@@ -13,15 +13,14 @@ Denuncia.init(
       autoIncrement: true,
       primaryKey: true,
     },
+ usuario_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
 
     tipo: {
-      type: DataTypes.ENUM(
-    
-     'comentario',
-     'imagen',
-     'usuario'
-
-      ),
+      type: DataTypes.ENUM('comentario','imagen','usuario'),
      allowNull:false
     },
 
@@ -35,20 +34,9 @@ allowNull:false
 
 
 
-
-
-motivo:{
-type:DataTypes.ENUM(
-'spam',
-'acoso',
-'copyright',
-'contenido_inapropiado',
-'otro'
-
-),
-allowNull:false
-
-
+motivo_id: {
+  type: DataTypes.INTEGER,
+  allowNull: false,
 },
 
 descripcion:{
@@ -58,11 +46,7 @@ type:DataTypes.TEXT
 
 
 estado:{
-type:DataTypes.ENUM(
-'pendiente',
-'desestimado',
-'ejecutado'
-),
+type:DataTypes.ENUM('pendiente','desestimado','ejecutado'),
 defaultValue:'pendiente'
 
   },

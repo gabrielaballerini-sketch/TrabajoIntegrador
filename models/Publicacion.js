@@ -22,7 +22,20 @@ Publicacion.init(
       type: DataTypes.BOOLEAN,
       defaultValue: true,// los comentarios abiertos x defecto
      
+    },
+    estado: {
+    type: DataTypes.ENUM('activa', 'en_revision', 'dada_de_baja'),
+    defaultValue: 'activa',
+    allowNull: false,
+    },
+    modificable: {
+    type: DataTypes.BOOLEAN,
+     defaultValue: true, // se pone en false cuando recibe la primera denuncia
     }
+
+
+
+
  
     
   },
